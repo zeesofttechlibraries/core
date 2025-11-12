@@ -5,51 +5,45 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import androidx.fragment.app.Fragment
 import java.io.Serializable
 
 /**
- * Navigate to another Activity from any Context (Activity, Fragment, Service, Application).
+ * Navigate from a Fragment to another Activity.
+ *
+ * Automatically adds FLAG_ACTIVITY_NEW_TASK if called outside an Activity context.
+ * Can pass optional extras as a Map<String, Any>.
  *
  * Usage:
- *  navigateToActivity(MainActivity::class.java)
+ *  fragment.navigateToActivity(MainActivity::class.java)
  *
  * With extras:
- *  navigateToActivity(
+ *  fragment.navigateToActivity(
  *      MainActivity::class.java,
  *      mapOf("userId" to 42, "isLoggedIn" to true)
  *  )
- *
- * Notes:
- * - Automatically adds FLAG_ACTIVITY_NEW_TASK if called outside an Activity.
- * - Works seamlessly inside Fragments by using requireContext().navigateToActivity(...)
  */
-fun Context.navigateToActivity(destination: Class<*>, extras: Map<String, Any>? = null) {
-    val intent = Intent(this, destination).apply {
+fun Fragment.navigateToActivity(destination: Class<*>, extras: Map<String, Any>? = null) {
+    val intent = Intent(requireContext(), destination).apply {
         extras?.let { putExtras(it.toBundle()) }
     }
-    if (this !is Activity) {
-        // If the call is not from an Activity, we must add this flag.
+
+    if (requireContext() !is Activity) {
+        // Add FLAG_ACTIVITY_NEW_TASK when not called from an Activity
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     }
+
     startActivity(intent)
 }
-
 
 /**
  * Converts a Map<String, Any> into a Bundle safely.
  *
- * Supported Types:
- *  - String
- *  - Int
- *  - Boolean
- *  - Float
- *  - Long
- *  - Double
- *  - CharSequence
- *  - Parcelable
- *  - Serializable
+ * Supported types:
+ *  - String, Int, Boolean, Float, Long, Double
+ *  - CharSequence, Parcelable, Serializable
  *
- * If an unsupported type is passed → it will throw IllegalArgumentException.
+ * @throws IllegalArgumentException if an unsupported type is passed
  *
  * Example:
  *  val extras = mapOf("id" to 10, "name" to "Hasnat")
@@ -68,7 +62,9 @@ private fun Map<String, Any>.toBundle(): Bundle {
             is CharSequence -> bundle.putCharSequence(key, value)
             is Parcelable -> bundle.putParcelable(key, value)
             is Serializable -> bundle.putSerializable(key, value)
-            else -> throw IllegalArgumentException("Unsupported type for key: $key -> ${value::class.java.name}")
+            else -> throw IllegalArgumentException(
+                "Unsupported type for key: $key -> ${value::class.java.name}"
+            )
         }
     }
     return bundle
