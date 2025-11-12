@@ -1,4 +1,4 @@
-package com.example.googleadsutils_java.GoogleAds.extensions
+package com.zeesofttechlibraries.core.extensions
 
 import android.app.Activity
 import android.content.Context

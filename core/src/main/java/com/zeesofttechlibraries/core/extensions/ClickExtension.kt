@@ -1,8 +1,8 @@
-package com.example.googleadsutils_java.GoogleAds.extensions
+package com.zeesofttechlibraries.core.extensions
 
 import android.os.SystemClock
 import android.view.View
-import com.example.core.R
+import com.zeesofttechlibraries.core.R
 
 private object GlobalDebounceTracker {
     var lastClickTime = 0L

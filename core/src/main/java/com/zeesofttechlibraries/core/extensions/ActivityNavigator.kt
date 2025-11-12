@@ -1,11 +1,10 @@
-package com.example.googleadsutils_java.GoogleAds.extensions
+package com.zeesofttechlibraries.core.extensions
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import androidx.fragment.app.Fragment
 import java.io.Serializable
 
 /**

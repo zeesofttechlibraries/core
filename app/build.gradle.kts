@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.core"
+    namespace = "com.zeesofttechlibraries.core"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.example.core"
+        applicationId = "com.zeesofttechlibraries.core"
         minSdk = 24
         targetSdk = 36
         versionCode = 1

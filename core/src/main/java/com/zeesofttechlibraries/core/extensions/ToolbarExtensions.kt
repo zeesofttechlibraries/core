@@ -1,11 +1,11 @@
-//package com.example.googleadsutils_java.GoogleAds.extensions
+//package com.zeesofttechlibraries.core.extensions
 //
 //import androidx.appcompat.app.AppCompatActivity
 //import android.widget.ImageView
 //import android.widget.LinearLayout
 //import android.widget.TextView
 //import androidx.annotation.DrawableRes
-//import com.example.core.R
+//import com.zeesofttechlibraries.core.R
 //
 //private var customBackAction: (() -> Unit)? = null
 //

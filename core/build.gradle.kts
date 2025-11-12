@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.core"
+    namespace = "com.zeesofttechlibraries.core"
     compileSdk {
         version = release(36)
     }

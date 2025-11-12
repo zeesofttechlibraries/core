@@ -1,4 +1,4 @@
-package com.example.googleadsutils_java.GoogleAds.extensions
+package com.zeesofttechlibraries.core.extensions
 
 import android.app.Activity
 import android.app.Dialog
@@ -9,7 +9,7 @@ import android.view.WindowManager
 import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import com.example.core.R
+import com.zeesofttechlibraries.core.R
 import java.lang.ref.WeakReference
 
 // We keep only one global reference to avoid multiple overlapping dialogs.
