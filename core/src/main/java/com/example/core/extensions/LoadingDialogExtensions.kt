@@ -1,0 +1,95 @@
+package com.example.googleadsutils_java.GoogleAds.extensions
+
+import android.app.Activity
+import android.app.Dialog
+import android.content.Context
+import android.graphics.Color
+import android.view.Window
+import android.view.WindowManager
+import androidx.core.graphics.drawable.toDrawable
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import com.example.core.R
+import java.lang.ref.WeakReference
+
+// We keep only one global reference to avoid multiple overlapping dialogs.
+private var loadingDialogRef: WeakReference<Dialog>? = null
+
+/**
+ * Shows a non-cancelable loading dialog.
+ *
+ * ✅ Safe to call multiple times — it won't show duplicates.
+ * ✅ Automatically dismisses when Activity is destroyed (prevents window leaks).
+ * ✅ Works only when context is an Activity.
+ *
+ * Usage:
+ *     showLoadingDialog()
+ *
+ * Usage from Fragment:
+ *     requireContext().showLoadingDialog()
+ *
+ * Make sure your `loading.xml` layout exists in `res/layout/`.
+ */
+fun Context.showLoadingDialog() {
+    val activity = this as? Activity ?: return
+    if (activity.isFinishing || activity.isDestroyed) return
+
+    val currentDialog = loadingDialogRef?.get()
+    if (currentDialog?.isShowing == true) return
+
+    dismissLoadingDialog()
+
+    val dialog = Dialog(activity, R.style.TransparentDialog).apply {
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        setCancelable(false)
+        setContentView(R.layout.loading)
+        window?.apply {
+            setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
+            addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            attributes = attributes.apply { dimAmount = 0.5f } // background dim
+        }
+        setOnDismissListener { loadingDialogRef = null }
+        show()
+    }
+
+    // Automatically removes dialog when lifecycle ends
+    if (activity is LifecycleOwner) {
+        activity.lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onDestroy(owner: LifecycleOwner) {
+                if (dialog.isShowing) dialog.dismiss()
+                loadingDialogRef = null
+            }
+        })
+    }
+
+    loadingDialogRef = WeakReference(dialog)
+}
+
+/**
+ * Dismiss the currently displayed loading dialog.
+ *
+ * Safe to call even if:
+ * - No dialog is showing
+ * - Activity is already finishing/destroyed
+ *
+ * Usage:
+ *     dismissLoadingDialog()
+ *
+ * From Fragment:
+ *     requireContext().dismissLoadingDialog()
+ */
+fun Context.dismissLoadingDialog() {
+    val dialog = loadingDialogRef?.get()
+    try {
+        val activity = this as? Activity
+        if (dialog?.isShowing == true) {
+            if (activity == null || (!activity.isFinishing && !activity.isDestroyed)) {
+                dialog.dismiss()
+            }
+        }
+    } catch (_: Exception) {
+        // Ignoring window token exception when activity is gone
+    } finally {
+        loadingDialogRef = null
+    }
+}
