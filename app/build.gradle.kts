@@ -4,19 +4,22 @@ plugins {
 }
 
 android {
-    namespace = "com.zeesofttechlibraries.core"
+    namespace = "com.example.core"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.zeesofttechlibraries.core"
+        applicationId = "com.example.core"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildFeatures {
+        viewBinding = true
     }
 
     buildTypes {
@@ -38,6 +41,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
