@@ -1,7 +1,6 @@
 package com.zeesofttechlibraries.core.extensions
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.ImageView
@@ -18,7 +17,7 @@ object ShowCustomToast {
 
     fun Context.showCustomToast(
         message: String,
-        icon: Int = R.drawable.default_toast_icon,
+        @DrawableRes icon: Int = R.drawable.default_toast_icon,
         @ColorRes textColor: Int = R.color.white,
         @ColorRes bgColor: Int = R.color.mainColor,
         @DrawableRes bgDrawable: Int = R.drawable.custom_toast_bg,
@@ -27,11 +26,11 @@ object ShowCustomToast {
         toast?.cancel()
         val view = LayoutInflater.from(this).inflate(R.layout.custom_toast, null)
         val card = view.findViewById<LinearLayout>(R.id.card)
-        val text = view.findViewById<TextView>(R.id.message)
-        val icons = view.findViewById<ImageView>(R.id.icon)
-        text.text = message
-        icons.setImageResource(icon)
-        text.setTextColor(ContextCompat.getColor(this, textColor))
+        val messageView = view.findViewById<TextView>(R.id.message)
+        val iconView = view.findViewById<ImageView>(R.id.icon)
+        messageView.text = message
+        iconView.setImageResource(icon)
+        messageView.setTextColor(ContextCompat.getColor(this, textColor))
         if(bgColor != R.color.mainColor){
             card.setBackgroundColor(ContextCompat.getColor(this, bgColor))
         }else{
