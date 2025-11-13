@@ -1,4 +1,4 @@
-# Core Extensions Library
+# Core Extensions Library [![](https://jitpack.io/v/zeesofttechlibraries/core.svg)](https://jitpack.io/#zeesofttechlibraries/core)
 
 This document provides a comprehensive overview of the utility classes and extension functions available in the `com.zeesofttechlibraries.core.extensions` package. These utilities are designed to simplify common Android development tasks, promote code reuse, and improve application stability.
 
