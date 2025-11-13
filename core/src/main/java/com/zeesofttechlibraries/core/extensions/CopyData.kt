@@ -26,6 +26,7 @@ object CopyData {
         clipboardManager.setPrimaryClip(clipData)
 
         // Show a toast message
-        context.showToast("Text Copied")
+        ToastManager.showToast(context,"Text Copied")
+        LoadingDialogManager.showLoadingDialog(context)
     }
 }

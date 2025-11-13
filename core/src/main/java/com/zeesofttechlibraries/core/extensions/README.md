@@ -4,59 +4,24 @@ This document provides a comprehensive overview of the utility classes and exten
 
 ## Table of Contents
 
-- [**ActivityNavigator** (`Navigator.kt`)](#navigator)
-- [**ClickExtension** (`DebounceClickListener.kt`)](#debounceclicklistener)
 - [**CopyData** (`CopyData.kt`)](#copydata)
 - [**DateTimeExtensions** (`DateTimeExtensions.kt`)](#datetimeextensions)
+- [**DebounceClickListener** (`DebounceClickListener.kt`)](#debounceclicklistener)
 - [**FragmentNavigator** (`FragmentNavigator.kt`)](#fragmentnavigator)
 - [**GenerateRandomString** (`GenerateRandomString.kt`)](#generaterandomstring)
 - [**GetClipboardData** (`GetClipboardData.kt`)](#getclipboarddata)
 - [**KeyboardExtensions** (`KeyboardExtensions.kt`)](#keyboardextensions)
-- [**LoadingDialogExtensions** (`LoadingDialogManager.kt`)](#loadingdialogmanager)
-- [**NetworkExtension** (`NetworkUtils.kt`)](#networkutils)
+- [**LoadingDialogManager** (`LoadingDialogManager.kt`)](#loadingdialogmanager)
+- [**Navigator** (`Navigator.kt`)](#navigator)
+- [**NetworkUtils** (`NetworkUtils.kt`)](#networkutils)
 - [**ResourceExtensions** (`ResourceExtensions.kt`)](#resourceextensions)
 - [**RotateAnimationUtil** (`RotateAnimationUtil.kt`)](#rotateanimationutil)
 - [**SharePlanText** (`SharePlanText.kt`)](#shareplantext)
-- [**ToastExtensions** (`ToastManager.kt`)](#toastmanager)
+- [**ToastManager** (`ToastManager.kt`)](#toastmanager)
 - [**ValidateEmail** (`ValidateEmail.kt`)](#validateemail)
 - [**ValidatePhoneNumber** (`ValidatePhoneNumber.kt`)](#validatephonenumber)
 - [**ViewAnimationExtensions** (`ViewAnimationExtensions.kt`)](#viewanimationextensions)
 - [**ViewVisibility** (`ViewVisibility.kt`)](#viewvisibility)
-
----
-
-### Navigator
-A centralized object for handling `Activity` navigation from any `Context`.
-
-**Import:**
-```kotlin
-import com.zeesofttechlibraries.core.extensions.Navigator
-```
-**Usage:**
-```kotlin
-// Simple navigation
-Navigator.navigateToActivity(this, HomeActivity::class.java)
-
-// With extras
-val params = mapOf("userId" to 123)
-Navigator.navigateToActivity(this, ProfileActivity::class.java, params)
-```
-
----
-
-### DebounceClickListener
-Prevents rapid, repeated clicks on a `View`. This object replaces simple `setOnClickListener` calls to avoid unintended behavior.
-
-**Import:**
-```kotlin
-import com.zeesofttechlibraries.core.extensions.DebounceClickListener
-```
-**Usage:**
-```kotlin
-DebounceClickListener.setDebouncedClickListener(myButton, delaySeconds = 2) {
-    // This code will only execute if 2 seconds have passed since the last click.
-}
-```
 
 ---
 
@@ -69,7 +34,7 @@ import com.zeesofttechlibraries.core.extensions.CopyData.copyToClipboard
 ```
 **Usage:**
 ```kotlin
-"Text to copy".copyToClipboard(context)
+"Text to be copied".copyToClipboard(context)
 ```
 
 ---
@@ -92,8 +57,24 @@ val timeAgo = date.toRelativeTime()
 
 ---
 
+### DebounceClickListener
+Prevents rapid, repeated clicks on a `View`. This object replaces simple `setOnClickListener` calls to avoid unintended behavior.
+
+**Import:**
+```kotlin
+import com.zeesofttechlibraries.core.extensions.DebounceClickListener
+```
+**Usage:**
+```kotlin
+DebounceClickListener.setDebouncedClickListener(myButton, delaySeconds = 2) {
+    // This code will only execute if 2 seconds have passed since the last click.
+}
+```
+
+---
+
 ### FragmentNavigator
-An extension function for navigating from a `Fragment` to an `Activity`.
+An extension function for navigating from a `Fragment` to an `Activity`, with support for passing extras.
 
 **Import:**
 ```kotlin
@@ -102,13 +83,13 @@ import com.zeesofttechlibraries.core.extensions.navigateToActivity
 **Usage:**
 ```kotlin
 // Inside a Fragment
-navigateToActivity(DetailActivity::class.java)
+navigateToActivity(DetailActivity::class.java, mapOf("id" to 123))
 ```
 
 ---
 
 ### GenerateRandomString
-Generates a random alphanumeric string of a given length.
+Generates a random alphanumeric string of a specified length.
 
 **Import:**
 ```kotlin
@@ -169,6 +150,25 @@ LoadingDialogManager.dismissLoadingDialog(this)
 
 ---
 
+### Navigator
+A centralized object for handling `Activity` navigation from any `Context`.
+
+**Import:**
+```kotlin
+import com.zeesofttechlibraries.core.extensions.Navigator
+```
+**Usage:**
+```kotlin
+// Simple navigation from an Activity or Service
+Navigator.navigateToActivity(this, HomeActivity::class.java)
+
+// With extras
+val params = mapOf("userId" to 123)
+Navigator.navigateToActivity(context, ProfileActivity::class.java, params)
+```
+
+---
+
 ### NetworkUtils
 A utility object to check for an active internet connection.
 
@@ -186,7 +186,7 @@ if (NetworkUtils.isConnectedToInternet(this)) {
 ---
 
 ### ResourceExtensions
-Extension functions to safely and concisely fetch resources from a `Context`.
+Extension functions to safely and concisely fetch resources like colors, drawables, and strings.
 
 **Import:**
 ```kotlin
@@ -203,7 +203,7 @@ val icon = context.getDrawableResource(R.drawable.ic_user)
 ---
 
 ### RotateAnimationUtil
-A utility object to create `RotateAnimation` instances easily.
+A utility object to create `RotateAnimation` instances with custom parameters.
 
 **Import:**
 ```kotlin
@@ -232,7 +232,7 @@ context.shareText("Check out this awesome library!")
 ---
 
 ### ToastManager
-A lifecycle-aware `Toast` manager that prevents queuing and avoids showing toasts if the `Activity` is no longer visible.
+A lifecycle-aware `Toast` manager that prevents queuing and avoids showing toasts if the `Activity` is not visible.
 
 **Import:**
 ```kotlin
@@ -246,7 +246,7 @@ ToastManager.showToast(this, "Operation successful")
 ---
 
 ### ValidateEmail
-An extension function to validate an email address using `Patterns.EMAIL_ADDRESS`.
+An extension function to validate if a string is a proper email address using `Patterns.EMAIL_ADDRESS`.
 
 **Import:**
 ```kotlin
@@ -255,14 +255,14 @@ import com.zeesofttechlibraries.core.extensions.isValidEmail
 **Usage:**
 ```kotlin
 if ("test@example.com".isValidEmail()) {
-    // Proceed
+    // Proceed with valid email
 }
 ```
 
 ---
 
 ### ValidatePhoneNumber
-An extension function to validate a phone number using `Patterns.PHONE`.
+An extension function to validate if a string is a valid phone number using `Patterns.PHONE`.
 
 **Import:**
 ```kotlin
@@ -271,14 +271,14 @@ import com.zeesofttechlibraries.core.extensions.isValidPhoneNumber
 **Usage:**
 ```kotlin
 if ("1234567890".isValidPhoneNumber()) {
-    // Proceed
+    // Proceed with valid phone number
 }
 ```
 
 ---
 
 ### ViewAnimationExtensions
-One-line extension functions to perform common view animations like fade and slide.
+One-line extension functions for common view animations like fade and slide.
 
 **Import:**
 ```kotlin
