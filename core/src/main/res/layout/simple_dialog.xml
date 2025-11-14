@@ -1,0 +1,93 @@
+<!--
+  This XML layout file defines a reusable and customizable dialog component.
+  It is designed to be inflated and managed by `DialogExtensions.kt` to provide
+  a consistent and lifecycle-aware dialog experience across the application.
+
+  The layout consists of:
+  - An optional icon (`image_icon`) displayed at the top.
+  - A title (`text_title`).
+  - A message body (`text_message`).
+  - Two action buttons (`button_positive` and `button_negative`).
+
+  The styling and content are dynamically configured through `DialogStyleModel`
+  and parameters passed to the `showCustomDialog` function, allowing for flexible
+  use cases like confirmation prompts, alerts, and informational messages.
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center">
+
+    <LinearLayout
+        android:id="@+id/root_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center">
+
+        <!-- Icon/Image on top. Visibility is set to 'gone' by default and managed programmatically. -->
+        <ImageView
+            android:id="@+id/image_icon"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:visibility="gone"
+            android:layout_marginBottom="16dp"
+            app:tint="@android:color/white" />
+
+        <!-- Dialog title text. -->
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter Title"
+            android:textColor="@color/white"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Dialog message/description text. -->
+        <TextView
+            android:id="@+id/text_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter Description"
+            android:textColor="@color/white"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Container for the action buttons. -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:weightSum="2">
+
+            <!-- Negative action button (e.g., 'Cancel', 'Not Now'). -->
+            <TextView
+                android:id="@+id/button_negative"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="10dp"
+                android:text="Not Now"
+                android:textAlignment="center"
+                android:textColor="@color/white" />
+
+            <!-- Positive action button (e.g., 'OK', 'Open Settings'). -->
+            <TextView
+                android:id="@+id/button_positive"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="10dp"
+                android:text="Open Settings"
+                android:textAlignment="center"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+    </LinearLayout>
+</FrameLayout>
