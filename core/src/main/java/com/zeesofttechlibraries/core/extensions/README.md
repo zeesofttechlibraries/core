@@ -13,7 +13,7 @@ dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         mavenCentral()
-        maven { url = uri("https://jitpack.io") }
+        maven { url = uri("https.jitpack.io") }
     }
 }
 ```
@@ -39,18 +39,20 @@ This document provides a comprehensive overview of the utility classes and exten
 - [**ActivityNavigator** (`ActivityNavigator.kt`)](#activitynavigator)
 - [**ClickExtension** (`ClickExtension.kt`)](#clickextension)
 - [**CopyData** (`CopyData.kt`)](#copydata)
+- [**CustomLoading** (`CustomLoading.kt`)](#customloading)
 - [**DateTimeExtensions** (`DateTimeExtensions.kt`)](#datetimeextensions)
 - [**FragmentNavigator** (`FragmentNavigator.kt`)](#fragmentnavigator)
 - [**GenerateRandomString** (`GenerateRandomString.kt`)](#generaterandomstring)
 - [**GetClipboardData** (`GetClipboardData.kt`)](#getclipboarddata)
 - [**KeyboardExtensions** (`KeyboardExtensions.kt`)](#keyboardextensions)
-- [**LoadingDialogExtensions** (`LoadingDialogExtensions.kt`)](#loadingdialogextensions)
+- [**LoadingDialogManager** (`LoadingDialogManager.kt`)](#loadingdialogmanager)
 - [**NetworkExtension** (`NetworkExtension.kt`)](#networkextension)
 - [**ResourceExtensions** (`ResourceExtensions.kt`)](#resourceextensions)
 - [**RotateAnimationUtil** (`RotateAnimationUtil.kt`)](#rotateanimationutil)
 - [**SharePlanText** (`SharePlanText.kt`)](#shareplantext)
 - [**ShowCustomToast** (`ShowCustomToast.kt`)](#showcustomtoast)
-- [**ToastManager** (`ToastExtensions.kt`)](#toastmanager)
+- [**ToastExtensions** (`ToastExtensions.kt`)](#toastextensions)
+- [**ToolbarManager** (`ToolbarManager.kt`)](#toolbarmanager)
 - [**ValidateEmail** (`ValidateEmail.kt`)](#validateemail)
 - [**ValidatePhoneNumber** (`ValidatePhoneNumber.kt`)](#validatephonenumber)
 - [**ViewAnimationExtensions** (`ViewAnimationExtensions.kt`)](#viewanimationextensions)
@@ -102,6 +104,29 @@ import com.zeesofttechlibraries.core.extensions.CopyData.copyToClipboard
 **Usage:**
 ```kotlin
 "Text to be copied".copyToClipboard(context)
+```
+
+---
+
+### CustomLoading
+A highly customizable, full-screen loading dialog with optional background blur and Lottie animation support.
+
+**Import:**
+```kotlin
+import com.zeesofttechlibraries.core.extensions.CustomLoading.showCustomLoading
+import com.zeesofttechlibraries.core.extensions.CustomLoading.dismissDialog
+```
+**Usage:**
+```kotlin
+// Show the loading dialog from an Activity or Fragment
+showCustomLoading(
+    lifeCycleOwner = this,
+    loadingMessage = "Processing your request...",
+    isBlurred = true
+)
+
+// Dismiss the dialog
+dismissDialog(this)
 ```
 
 ---
@@ -186,21 +211,17 @@ requireContext().showKeyboard(myEditText)
 
 ---
 
-### LoadingDialogExtensions
-A lifecycle-aware manager for a loading dialog that prevents window leaks.
+### LoadingDialogManager
+A lifecycle-aware manager for a simple, non-customizable loading dialog.
 
 **Import:**
 ```kotlin
-import com.zeesofttechlibraries.core.extensions.showLoadingDialog
-import com.zeesofttechlibraries.core.extensions.dismissLoadingDialog
+import com.zeesofttechlibraries.core.extensions.LoadingDialogManager
 ```
 **Usage:**
 ```kotlin
-// From a Context (e.g., an Activity)
-showLoadingDialog()
-
-// To dismiss
-dismissLoadingDialog()
+LoadingDialogManager.showLoadingDialog(this)
+LoadingDialogManager.dismissLoadingDialog(this)
 ```
 
 ---
@@ -286,16 +307,35 @@ showCustomToast(
 
 ---
 
-### ToastManager
-A lifecycle-aware `Toast` manager that prevents queuing and avoids showing toasts if the `Activity` is not visible.
+### ToastExtensions
+Provides a lifecycle-aware `Toast` that prevents queuing.
 
 **Import:**
 ```kotlin
-import com.zeesofttechlibraries.core.extensions.ToastManager
+import com.zeesofttechlibraries.core.extensions.showToast
 ```
 **Usage:**
 ```kotlin
-ToastManager.showToast(this, "Operation successful")
+context.showToast("Operation successful")
+```
+
+---
+
+### ToolbarManager
+A utility for setting up a standardized `AppCompatActivity` toolbar.
+
+**Import:**
+```kotlin
+import com.zeesofttechlibraries.core.extensions.ToolbarManager
+```
+**Usage:**
+```kotlin
+// Assuming the toolbar layout is included in your activity's XML
+ToolbarManager.setupToolbar(
+    activity = this,
+    title = "My Screen",
+    customAction = { /* Custom back action */ }
+)
 ```
 
 ---

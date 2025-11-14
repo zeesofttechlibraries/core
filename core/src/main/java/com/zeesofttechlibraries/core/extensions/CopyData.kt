@@ -27,6 +27,5 @@ object CopyData {
 
         // Show a toast message
         ToastManager.showToast(context,"Text Copied")
-        LoadingDialogManager.showLoadingDialog(context)
     }
 }
