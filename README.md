@@ -1,23 +1,60 @@
 # Core Extensions Library [![](https://jitpack.io/v/zeesofttechlibraries/core.svg)](https://jitpack.io/#zeesofttechlibraries/core)
 
-This document provides a comprehensive overview of the utility classes and extension functions available in the `com.zeesofttechlibraries.core.extensions` package. These utilities are designed to simplify common Android development tasks, promote code reuse, and improve application stability.
+# Core Library
 
-## Table of Contents
+## How to Install
 
-- [**ActivityNavigator** (`Navigator.kt`)](#navigator)
-- [**ClickExtension** (`DebounceClickListener.kt`)](#debounceclicklistener)
+To get this project into your build, follow these steps:
+
+**Step 1. Add the JitPack repository to your build file**
+
+Add it in your root `settings.gradle.kts` (or `settings.gradle`) file:
+
+```kotlin
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }
+    }
+}
+```
+
+**Step 2. Add the dependency**
+
+Add the dependency to your module's `build.gradle.kts` (or `build.gradle`) file:
+
+```kotlin
+dependencies {
+    implementation("com.github.zeesofttechlibraries:core:1.2.1")
+}
+```
+
+---
+
+## Available Utilities
+
+This document provides a comprehensive overview of the utility classes and extension functions available. 
+
+### Table of Contents
+
+- [**ActivityNavigator** (`ActivityNavigator.kt`)](#activitynavigator)
+- [**ClickExtension** (`ClickExtension.kt`)](#clickextension)
 - [**CopyData** (`CopyData.kt`)](#copydata)
+- [**CustomLoading** (`CustomLoading.kt`)](#customloading)
 - [**DateTimeExtensions** (`DateTimeExtensions.kt`)](#datetimeextensions)
 - [**FragmentNavigator** (`FragmentNavigator.kt`)](#fragmentnavigator)
 - [**GenerateRandomString** (`GenerateRandomString.kt`)](#generaterandomstring)
 - [**GetClipboardData** (`GetClipboardData.kt`)](#getclipboarddata)
 - [**KeyboardExtensions** (`KeyboardExtensions.kt`)](#keyboardextensions)
-- [**LoadingDialogExtensions** (`LoadingDialogManager.kt`)](#loadingdialogmanager)
-- [**NetworkExtension** (`NetworkUtils.kt`)](#networkutils)
+- [**LoadingDialogManager** (`LoadingDialogManager.kt`)](#loadingdialogmanager)
+- [**NetworkExtension** (`NetworkExtension.kt`)](#networkextension)
 - [**ResourceExtensions** (`ResourceExtensions.kt`)](#resourceextensions)
 - [**RotateAnimationUtil** (`RotateAnimationUtil.kt`)](#rotateanimationutil)
 - [**SharePlanText** (`SharePlanText.kt`)](#shareplantext)
-- [**ToastExtensions** (`ToastManager.kt`)](#toastmanager)
+- [**ShowCustomToast** (`ShowCustomToast.kt`)](#showcustomtoast)
+- [**ToastExtensions** (`ToastExtensions.kt`)](#toastextensions)
+- [**ToolbarManager** (`ToolbarManager.kt`)](#toolbarmanager)
 - [**ValidateEmail** (`ValidateEmail.kt`)](#validateemail)
 - [**ValidatePhoneNumber** (`ValidatePhoneNumber.kt`)](#validatephonenumber)
 - [**ViewAnimationExtensions** (`ViewAnimationExtensions.kt`)](#viewanimationextensions)
@@ -25,36 +62,35 @@ This document provides a comprehensive overview of the utility classes and exten
 
 ---
 
-### Navigator
-A centralized object for handling `Activity` navigation from any `Context`.
+### ActivityNavigator
+An extension function on `Context` to navigate to another `Activity` from anywhere.
 
 **Import:**
 ```kotlin
-import com.zeesofttechlibraries.core.extensions.Navigator
+import com.zeesofttechlibraries.core.extensions.navigateToActivity
 ```
 **Usage:**
 ```kotlin
-// Simple navigation
-Navigator.navigateToActivity(this, HomeActivity::class.java)
+// From an Activity
+navigateToActivity(DetailActivity::class.java, mapOf("id" to 123))
 
-// With extras
-val params = mapOf("userId" to 123)
-Navigator.navigateToActivity(this, ProfileActivity::class.java, params)
+// From a Service or BroadcastReceiver
+context.navigateToActivity(HomeActivity::class.java)
 ```
 
 ---
 
-### DebounceClickListener
-Prevents rapid, repeated clicks on a `View`. This object replaces simple `setOnClickListener` calls to avoid unintended behavior.
+### ClickExtension
+An extension function for `View` that prevents rapid, repeated clicks (debouncing).
 
 **Import:**
 ```kotlin
-import com.zeesofttechlibraries.core.extensions.DebounceClickListener
+import com.zeesofttechlibraries.core.extensions.setDebouncedClickListener
 ```
 **Usage:**
 ```kotlin
-DebounceClickListener.setDebouncedClickListener(myButton, delaySeconds = 2) {
-    // This code will only execute if 2 seconds have passed since the last click.
+myButton.setDebouncedClickListener(delaySeconds = 2) {
+    // This click action will only trigger once every 2 seconds.
 }
 ```
 
@@ -69,7 +105,30 @@ import com.zeesofttechlibraries.core.extensions.CopyData.copyToClipboard
 ```
 **Usage:**
 ```kotlin
-"Text to copy".copyToClipboard(context)
+"Text to be copied".copyToClipboard(context)
+```
+
+---
+
+### CustomLoading
+A highly customizable, full-screen loading dialog with optional background blur and Lottie animation support.
+
+**Import:**
+```kotlin
+import com.zeesofttechlibraries.core.extensions.CustomLoading.showCustomLoading
+import com.zeesofttechlibraries.core.extensions.CustomLoading.dismissDialog
+```
+**Usage:**
+```kotlin
+// Show the loading dialog from an Activity or Fragment
+showCustomLoading(
+    lifeCycleOwner = this,
+    loadingMessage = "Processing your request...",
+    isBlurred = true
+)
+
+// Dismiss the dialog
+dismissDialog(this)
 ```
 
 ---
@@ -85,9 +144,9 @@ import com.zeesofttechlibraries.core.extensions.toRelativeTime
 ```
 **Usage:**
 ```kotlin
-val formatted = Date().formatTo("dd MMM yyyy")
-val date = "2023-10-21".toDate("yyyy-MM-dd")
-val timeAgo = date.toRelativeTime()
+val formattedDate = Date().formatTo("dd MMM yyyy")
+val dateObject = "2023-10-21".toDate("yyyy-MM-dd")
+val timeAgo = dateObject?.toRelativeTime()
 ```
 
 ---
@@ -101,14 +160,14 @@ import com.zeesofttechlibraries.core.extensions.navigateToActivity
 ```
 **Usage:**
 ```kotlin
-// Inside a Fragment
-navigateToActivity(DetailActivity::class.java)
+// Inside a Fragment class
+navigateToActivity(DetailActivity::class.java, mapOf("id" to 123))
 ```
 
 ---
 
 ### GenerateRandomString
-Generates a random alphanumeric string of a given length.
+Generates a random alphanumeric string of a specified length.
 
 **Import:**
 ```kotlin
@@ -148,14 +207,14 @@ import com.zeesofttechlibraries.core.extensions.showKeyboard
 // From an Activity
 hideKeyboard()
 
-// From a Context, e.g., in a Fragment
+// From a Context (e.g., in a Fragment)
 requireContext().showKeyboard(myEditText)
 ```
 
 ---
 
 ### LoadingDialogManager
-A lifecycle-aware manager for a loading dialog that prevents window leaks.
+A lifecycle-aware manager for a simple, non-customizable loading dialog.
 
 **Import:**
 ```kotlin
@@ -169,16 +228,16 @@ LoadingDialogManager.dismissLoadingDialog(this)
 
 ---
 
-### NetworkUtils
-A utility object to check for an active internet connection.
+### NetworkExtension
+A utility to check for an active internet connection.
 
 **Import:**
 ```kotlin
-import com.zeesofttechlibraries.core.extensions.NetworkUtils
+import com.zeesofttechlibraries.core.extensions.isConnectedToInternet
 ```
 **Usage:**
 ```kotlin
-if (NetworkUtils.isConnectedToInternet(this)) {
+if (context.isConnectedToInternet()) {
     // Network is available
 }
 ```
@@ -186,13 +245,13 @@ if (NetworkUtils.isConnectedToInternet(this)) {
 ---
 
 ### ResourceExtensions
-Extension functions to safely and concisely fetch resources from a `Context`.
+Extension functions to safely and concisely fetch resources like colors, drawables, and strings.
 
 **Import:**
 ```kotlin
 import com.zeesofttechlibraries.core.extensions.getColorResource
 import com.zeesofttechlibraries.core.extensions.getDrawableResource
-import com.zeesofttechlibraries.core.extensions.getStringResource
+// ...and so on
 ```
 **Usage:**
 ```kotlin
@@ -203,7 +262,7 @@ val icon = context.getDrawableResource(R.drawable.ic_user)
 ---
 
 ### RotateAnimationUtil
-A utility object to create `RotateAnimation` instances easily.
+A utility object to create `RotateAnimation` instances with custom parameters.
 
 **Import:**
 ```kotlin
@@ -211,8 +270,8 @@ import com.zeesofttechlibraries.core.extensions.RotateAnimationUtil
 ```
 **Usage:**
 ```kotlin
-val rotate = RotateAnimationUtil.getRotateAnimation(toDegrees = 360f)
-myImageView.startAnimation(rotate)
+val rotateAnim = RotateAnimationUtil.getRotateAnimation(toDegrees = 360f)
+myImageView.startAnimation(rotateAnim)
 ```
 
 ---
@@ -231,22 +290,60 @@ context.shareText("Check out this awesome library!")
 
 ---
 
-### ToastManager
-A lifecycle-aware `Toast` manager that prevents queuing and avoids showing toasts if the `Activity` is no longer visible.
+### ShowCustomToast
+An object to display a fully customizable `Toast` message with a specific layout.
 
 **Import:**
 ```kotlin
-import com.zeesofttechlibraries.core.extensions.ToastManager
+import com.zeesofttechlibraries.core.extensions.ShowCustomToast.showCustomToast
 ```
 **Usage:**
 ```kotlin
-ToastManager.showToast(this, "Operation successful")
+// Must be called from a Context (e.g., an Activity or Fragment)
+showCustomToast(
+    message = "Profile updated!",
+    icon = R.drawable.ic_success,
+    bgColor = R.color.green
+)
+```
+
+---
+
+### ToastExtensions
+Provides a lifecycle-aware `Toast` that prevents queuing.
+
+**Import:**
+```kotlin
+import com.zeesofttechlibraries.core.extensions.showToast
+```
+**Usage:**
+```kotlin
+context.showToast("Operation successful")
+```
+
+---
+
+### ToolbarManager
+A utility for setting up a standardized `AppCompatActivity` toolbar.
+
+**Import:**
+```kotlin
+import com.zeesofttechlibraries.core.extensions.ToolbarManager
+```
+**Usage:**
+```kotlin
+// Assuming the toolbar layout is included in your activity's XML
+ToolbarManager.setupToolbar(
+    activity = this,
+    title = "My Screen",
+    customAction = { /* Custom back action */ }
+)
 ```
 
 ---
 
 ### ValidateEmail
-An extension function to validate an email address using `Patterns.EMAIL_ADDRESS`.
+An extension function to validate if a string is a proper email address.
 
 **Import:**
 ```kotlin
@@ -255,14 +352,14 @@ import com.zeesofttechlibraries.core.extensions.isValidEmail
 **Usage:**
 ```kotlin
 if ("test@example.com".isValidEmail()) {
-    // Proceed
+    // Proceed with valid email
 }
 ```
 
 ---
 
 ### ValidatePhoneNumber
-An extension function to validate a phone number using `Patterns.PHONE`.
+An extension function to validate if a string is a valid phone number.
 
 **Import:**
 ```kotlin
@@ -271,14 +368,14 @@ import com.zeesofttechlibraries.core.extensions.isValidPhoneNumber
 **Usage:**
 ```kotlin
 if ("1234567890".isValidPhoneNumber()) {
-    // Proceed
+    // Proceed with valid phone number
 }
 ```
 
 ---
 
 ### ViewAnimationExtensions
-One-line extension functions to perform common view animations like fade and slide.
+One-line extension functions for common view animations like fade and slide.
 
 **Import:**
 ```kotlin
@@ -296,6 +393,18 @@ myOtherView.slideDown(500)
 
 ### ViewVisibility
 Convenience functions to change a view's visibility with `makeVisible()`, `makeGone()`, and `makeInvisible()`.
+
+**Import:**
+```kotlin
+import com.zeesofttechlibraries.core.extensions.makeVisible
+import com.zeesofttechlibraries.core.extensions.makeGone
+```
+**Usage:**
+```kotlin
+myProgressBar.makeVisible()
+myContent.makeGone()
+```
+
 
 **Import:**
 ```kotlin
