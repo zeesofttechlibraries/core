@@ -43,4 +43,5 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("com.airbnb.android:lottie:6.7.1")
+    implementation("jp.wasabeef:blurry:4.0.1")
 }
