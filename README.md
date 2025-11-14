@@ -21,6 +21,7 @@ dependencyResolutionManagement {
 **Step 2. Add the dependency**
 
 Add the dependency to your module's `build.gradle.kts` (or `build.gradle`) file:
+Latest Version: [![](https://jitpack.io/v/zeesofttechlibraries/core.svg)](https://jitpack.io/#zeesofttechlibraries/core)
 
 ```kotlin
 dependencies {
