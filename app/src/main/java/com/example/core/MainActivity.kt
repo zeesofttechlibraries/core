@@ -39,7 +39,6 @@ class MainActivity : AppCompatActivity() {
 
         // Set a click listener on the root view to trigger all tests.
         // The logs will appear in your Logcat window under the "TEST_CORE" tag.
-        binding.root.setOnClickListener {
             Log.d("TEST_CORE", "--- STARTING CORE LIBRARY TESTS ---")
             testUiAndViewUtilities()
             testLoadingDialogs()
@@ -49,7 +48,7 @@ class MainActivity : AppCompatActivity() {
             testDateTimeExtensions()
             testResourceExtensions()
             testOtherUtilities()
-        }
+
     }
 
     private fun testUiAndViewUtilities() {
