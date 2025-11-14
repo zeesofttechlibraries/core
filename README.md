@@ -1,7 +1,5 @@
 # Core Extensions Library [![](https://jitpack.io/v/zeesofttechlibraries/core.svg)](https://jitpack.io/#zeesofttechlibraries/core)
 
-# Core Library
-
 ## How to Install
 
 To get this project into your build, follow these steps:
