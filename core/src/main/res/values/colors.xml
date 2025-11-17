@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white">#FFFFFFFF</color>
+    <color name="gray">#808080</color>
     <color name="mainColor">#1365F8</color>
     <color name="secondMainColor">#4285F4</color>
+    <color name="alertDialogDefaultColor">#01CC90</color>
+    <color name="alertRed">#FF2357</color>
+
 </resources>

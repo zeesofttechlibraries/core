@@ -13,7 +13,7 @@ dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         mavenCentral()
-        maven { url = uri("https://jitpack.io") }
+        maven { url = uri("https.jitpack.io") }
     }
 }
 ```
@@ -24,7 +24,7 @@ Add the dependency to your module's `build.gradle.kts` (or `build.gradle`) file:
 
 ```kotlin
 dependencies {
-    implementation("com.github.zeesofttechlibraries:core:1.2.2")
+    implementation("com.github.zeesofttechlibraries:core:1.2.3") // Use the latest version
 }
 ```
 
@@ -39,6 +39,7 @@ This document provides a comprehensive overview of the utility classes and exten
 - [**ActivityNavigator** (`ActivityNavigator.kt`)](#activitynavigator)
 - [**ClickExtension** (`ClickExtension.kt`)](#clickextension)
 - [**CopyData** (`CopyData.kt`)](#copydata)
+- [**CustomAlertDialog** (`CustomAlertDialog.kt`)](#customalertdialog)
 - [**CustomDialog** (`dialog/` package)](#customdialog)
 - [**CustomLoading** (`CustomLoading.kt`)](#customloading)
 - [**DateTimeExtensions** (`DateTimeExtensions.kt`)](#datetimeextensions)
@@ -72,9 +73,6 @@ import com.zeesofttechlibraries.core.extensions.navigateToActivity
 ```kotlin
 // From an Activity
 navigateToActivity(DetailActivity::class.java, mapOf("id" to 123))
-
-// From a Service or BroadcastReceiver
-context.navigateToActivity(HomeActivity::class.java)
 ```
 
 ---
@@ -88,9 +86,7 @@ import com.zeesofttechlibraries.core.extensions.setDebouncedClickListener
 ```
 **Usage:**
 ```kotlin
-myButton.setDebouncedClickListener(delaySeconds = 2) {
-    // This click action will only trigger once every 2 seconds.
-}
+myButton.setDebouncedClickListener(delaySeconds = 2) { /* ... */ }
 ```
 
 ---
@@ -109,8 +105,33 @@ import com.zeesofttechlibraries.core.extensions.CopyData.copyToClipboard
 
 ---
 
+### CustomAlertDialog
+A powerful, all-in-one alert dialog with support for Lottie animations, background blur, and extensive customization.
+
+**Import:**
+```kotlin
+import com.zeesofttechlibraries.core.extensions.CustomAlertDialog.showCustomAlertDialog
+```
+**Usage:**
+```kotlin
+// Show the dialog from an Activity or Fragment
+showCustomAlertDialog(
+    lifeCycleOwner = this,
+    title = "Confirm Action",
+    description = "Are you sure you want to delete this item?",
+    lottieAnimation = R.raw.delete_animation,
+    isBlurred = true,
+    positiveButtonText = "Delete",
+    negativeButtonText = "Cancel",
+    positiveButtonAction = { /* Handle delete */ },
+    negativeButtonAction = { /* Handle cancel */ }
+)
+```
+
+---
+
 ### CustomDialog
-A powerful, lifecycle-aware, and highly customizable dialog system.
+A flexible, lifecycle-aware dialog system for creating custom-styled dialogs.
 
 **Import:**
 ```kotlin
@@ -119,20 +140,11 @@ import com.zeesofttechlibraries.core.extensions.dialog.DialogStyleModel
 ```
 **Usage:**
 ```kotlin
-// Define a style (optional)
-val successStyle = DialogStyleModel(
-    backgroundDrawable = R.drawable.dialog_bg_success,
-    iconDrawable = R.drawable.ic_success,
-    positiveButtonBackground = R.drawable.btn_positive
-)
-
-// Show the dialog from an Activity or Fragment
+val successStyle = DialogStyleModel(iconDrawable = R.drawable.ic_success)
 showCustomDialog(
     title = "Success!",
     message = "Your profile has been updated.",
     positiveText = "Got it",
-    positiveAction = { /* Handle action */ },
-    hideNegativeButton = true,
     styleModel = successStyle
 )
 ```
@@ -142,12 +154,6 @@ showCustomDialog(
 ### CustomLoading
 A customizable, full-screen loading dialog with background blur and Lottie animation support.
 
-**Dependencies:** This utility requires Lottie and Blurry. Make sure to add them to your app's `build.gradle.kts`:
-```kotlin
-implementation("com.airbnb.android:lottie:5.2.0") // Use the latest version
-implementation("jp.wasabeef:blurry:4.0.1")
-```
-
 **Import:**
 ```kotlin
 import com.zeesofttechlibraries.core.extensions.CustomLoading.showCustomLoading
@@ -155,7 +161,7 @@ import com.zeesofttechlibraries.core.extensions.CustomLoading.dismissDialog
 ```
 **Usage:**
 ```kotlin
-// Show the loading dialog from an Activity or Fragment
+// Show the loading dialog
 showCustomLoading(
     lifeCycleOwner = this,
     loadingMessage = "Processing...",
@@ -174,14 +180,11 @@ Extension functions for `Date` and `String` to simplify date and time manipulati
 **Import:**
 ```kotlin
 import com.zeesofttechlibraries.core.extensions.formatTo
-import com.zeesofttechlibraries.core.extensions.toDate
 import com.zeesofttechlibraries.core.extensions.toRelativeTime
 ```
 **Usage:**
 ```kotlin
 val formattedDate = Date().formatTo("dd MMM yyyy")
-val dateObject = "2023-10-21".toDate("yyyy-MM-dd")
-val timeAgo = dateObject?.toRelativeTime()
 ```
 
 ---
@@ -196,7 +199,7 @@ import com.zeesofttechlibraries.core.extensions.navigateToActivity
 **Usage:**
 ```kotlin
 // Inside a Fragment class
-navigateToActivity(DetailActivity::class.java, mapOf("id" to 123))
+navigateToActivity(DetailActivity::class.java)
 ```
 
 ---
@@ -210,7 +213,7 @@ import com.zeesofttechlibraries.core.extensions.generateRandomString
 ```
 **Usage:**
 ```kotlin
-val randomId = generateRandomString(12) // Generates a 12-character random string
+val randomId = generateRandomString(12)
 ```
 
 ---
@@ -235,21 +238,17 @@ Utility functions to programmatically show or hide the soft keyboard.
 **Import:**
 ```kotlin
 import com.zeesofttechlibraries.core.extensions.hideKeyboard
-import com.zeesofttechlibraries.core.extensions.showKeyboard
 ```
 **Usage:**
 ```kotlin
 // From an Activity
 hideKeyboard()
-
-// From a Context (e.g., in a Fragment)
-requireContext().showKeyboard(myEditText)
 ```
 
 ---
 
 ### LoadingDialogManager
-A lifecycle-aware manager for a simple, non-customizable loading dialog.
+A manager for a simple, non-customizable loading dialog.
 
 **Import:**
 ```kotlin
@@ -272,32 +271,27 @@ import com.zeesofttechlibraries.core.extensions.isConnectedToInternet
 ```
 **Usage:**
 ```kotlin
-if (context.isConnectedToInternet()) {
-    // Network is available
-}
+if (context.isConnectedToInternet()) { /* ... */ }
 ```
 
 ---
 
 ### ResourceExtensions
-Extension functions to safely and concisely fetch resources like colors, drawables, and strings.
+Extension functions to safely and concisely fetch resources.
 
 **Import:**
 ```kotlin
 import com.zeesofttechlibraries.core.extensions.getColorResource
-import com.zeesofttechlibraries.core.extensions.getDrawableResource
-// ...and so on
 ```
 **Usage:**
 ```kotlin
 val color = context.getColorResource(R.color.primary)
-val icon = context.getDrawableResource(R.drawable.ic_user)
 ```
 
 ---
 
 ### RotateAnimationUtil
-A utility object to create `RotateAnimation` instances with custom parameters.
+A utility object to create `RotateAnimation` instances.
 
 **Import:**
 ```kotlin
@@ -305,14 +299,14 @@ import com.zeesofttechlibraries.core.extensions.RotateAnimationUtil
 ```
 **Usage:**
 ```kotlin
-val rotateAnim = RotateAnimationUtil.getRotateAnimation(toDegrees = 360f)
+val rotateAnim = RotateAnimationUtil.getRotateAnimation()
 myImageView.startAnimation(rotateAnim)
 ```
 
 ---
 
 ### SharePlanText
-An extension function on `Context` to easily share plain text via the standard Android share sheet.
+An extension function on `Context` to easily share plain text.
 
 **Import:**
 ```kotlin
@@ -326,7 +320,7 @@ context.shareText("Check out this awesome library!")
 ---
 
 ### ShowCustomToast
-An object to display a fully customizable `Toast` message with a specific layout.
+An object to display a fully customizable `Toast` message.
 
 **Import:**
 ```kotlin
@@ -334,12 +328,7 @@ import com.zeesofttechlibraries.core.extensions.ShowCustomToast.showCustomToast
 ```
 **Usage:**
 ```kotlin
-// Must be called from a Context (e.g., an Activity or Fragment)
-showCustomToast(
-    message = "Profile updated!",
-    icon = R.drawable.ic_success,
-    bgColor = R.color.green
-)
+showCustomToast(message = "Profile updated!")
 ```
 
 ---
@@ -367,12 +356,7 @@ import com.zeesofttechlibraries.core.extensions.ToolbarManager
 ```
 **Usage:**
 ```kotlin
-// Assuming the toolbar layout is included in your activity's XML
-ToolbarManager.setupToolbar(
-    activity = this,
-    title = "My Screen",
-    customAction = { /* Custom back action */ }
-)
+ToolbarManager.setupToolbar(activity = this, title = "My Screen")
 ```
 
 ---
@@ -386,9 +370,7 @@ import com.zeesofttechlibraries.core.extensions.isValidEmail
 ```
 **Usage:**
 ```kotlin
-if ("test@example.com".isValidEmail()) {
-    // Proceed with valid email
-}
+if ("test@example.com".isValidEmail()) { /* ... */ }
 ```
 
 ---
@@ -402,32 +384,27 @@ import com.zeesofttechlibraries.core.extensions.isValidPhoneNumber
 ```
 **Usage:**
 ```kotlin
-if ("1234567890".isValidPhoneNumber()) {
-    // Proceed with valid phone number
-}
+if ("1234567890".isValidPhoneNumber()) { /* ... */ }
 ```
 
 ---
 
 ### ViewAnimationExtensions
-One-line extension functions for common view animations like fade and slide.
+One-line extension functions for common view animations.
 
 **Import:**
 ```kotlin
 import com.zeesofttechlibraries.core.extensions.fadeIn
-import com.zeesofttechlibraries.core.extensions.slideDown
-// etc.
 ```
 **Usage:**
 ```kotlin
 myView.fadeIn()
-myOtherView.slideDown(500)
 ```
 
 ---
 
 ### ViewVisibility
-Convenience functions to change a view's visibility with `makeVisible()`, `makeGone()`, and `makeInvisible()`.
+Convenience functions to change a view's visibility.
 
 **Import:**
 ```kotlin
@@ -437,5 +414,4 @@ import com.zeesofttechlibraries.core.extensions.makeGone
 **Usage:**
 ```kotlin
 myProgressBar.makeVisible()
-myContent.makeGone()
 ```

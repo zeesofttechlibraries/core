@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.core.databinding.ActivityMainBinding
 import com.zeesofttechlibraries.core.extensions.CopyData.copyToClipboard
+import com.zeesofttechlibraries.core.extensions.CustomAlertDialog.showCustomAlertDialog
 import com.zeesofttechlibraries.core.extensions.CustomLoading
 import com.zeesofttechlibraries.core.extensions.CustomLoading.showCustomLoading
 import com.zeesofttechlibraries.core.extensions.RotateAnimationUtil
@@ -37,7 +38,26 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        showCustomLoading(this@MainActivity,"Loading....", isBlurred = true, isSquarer = true)
+
+        showCustomAlertDialog(this@MainActivity,"Test Title","Test Message", positiveButtonAction = {}, negativeButtonAction = {} , isOnTouchOutsideCancel = true)
+        binding.first.setDebouncedClickListener {
+        showCustomAlertDialog(this@MainActivity,"Test Title","Test Message", positiveButtonAction = {}, negativeButtonAction = {}, topBgColor = com.zeesofttechlibraries.core.R.color.mainColor )
+
+        }
+        binding.second.setDebouncedClickListener {
+        showCustomAlertDialog(this@MainActivity,"Test Title","Test Message", positiveButtonAction = {}, negativeButtonAction = {}, lottieAnimation = R.raw.premium_animation )
+
+        }
+        binding.third.setDebouncedClickListener {
+        showCustomAlertDialog(this@MainActivity,"Test Title","Test Message", positiveButtonAction = {}, negativeButtonAction = {}, negativeButtonText = "Cancel", positiveButtonText = "Ok", topBgColor = com.zeesofttechlibraries.core.R.color.alertRed )
+
+        }
+        binding.fourth.setDebouncedClickListener {
+        showCustomAlertDialog(this@MainActivity,"Test Title","Test Message", positiveButtonAction = {}, negativeButtonAction = {}, negativeButtonText = "Cancel", positiveButtonText = "Ok", topBgColor = com.zeesofttechlibraries.core.R.color.alertRed , isBlurred = true,)
+
+        }
+
+
 
         // The tests will now run automatically when the app starts.
         // The logs will appear in your Logcat window under the "TEST_CORE" tag.

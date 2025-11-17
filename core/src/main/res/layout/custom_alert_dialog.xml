@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="8dp"
+        app:cardCornerRadius="12dp"
+        >
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <LinearLayout
+                android:id="@+id/topBgColor"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@color/alertDialogDefaultColor" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                android:tint="@color/white"
+                app:srcCompat="@drawable/dots"
+                app:tint="@color/white" />
+
+            <FrameLayout
+                android:id="@+id/iconBg"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@drawable/alert_dialog_icon_bg"
+                app:layout_anchor="@+id/topBgColor"
+                app:layout_anchorGravity="bottom|center">
+
+                <ImageView
+                    android:id="@+id/alertIcon"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    app:srcCompat="@drawable/check_ic" />
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/alertLottie"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:visibility="gone"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+
+                    app:lottie_rawRes="@raw/splash_loading" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="140dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/alertTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Success"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/alertDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Basic details updated successfully"
+                    android:textAlignment="gravity" />
+
+                <LinearLayout
+                    android:id="@+id/buttonContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:id="@+id/secondaryBtn"
+                        android:layout_width="110dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/btn_red_bg"
+                        android:gravity="center"
+                        android:text="Cancel"
+                        android:textColor="@color/alertRed"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:visibility="visible"
+                        android:padding="12dp"
+                        android:foreground="?attr/selectableItemBackground" />
+
+                    <TextView
+                        android:id="@+id/primaryBtn"
+                        android:layout_width="110dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/btn_bg"
+                        android:gravity="center"
+                        android:text="Ok"
+                        android:textColor="@color/alertDialogDefaultColor"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:padding="12dp"
+                        android:foreground="?attr/selectableItemBackground" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
