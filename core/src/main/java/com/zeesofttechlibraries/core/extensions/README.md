@@ -13,7 +13,7 @@ dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         mavenCentral()
-        maven { url = uri("https.jitpack.io") }
+        maven { url = uri("https://jitpack.io") }
     }
 }
 ```
@@ -24,7 +24,7 @@ Add the dependency to your module's `build.gradle.kts` (or `build.gradle`) file:
 
 ```kotlin
 dependencies {
-    implementation("com.github.zeesofttechlibraries:core:1.0.6")
+    implementation("com.github.zeesofttechlibraries:core:1.2.2")
 }
 ```
 
@@ -39,6 +39,7 @@ This document provides a comprehensive overview of the utility classes and exten
 - [**ActivityNavigator** (`ActivityNavigator.kt`)](#activitynavigator)
 - [**ClickExtension** (`ClickExtension.kt`)](#clickextension)
 - [**CopyData** (`CopyData.kt`)](#copydata)
+- [**CustomDialog** (`dialog/` package)](#customdialog)
 - [**CustomLoading** (`CustomLoading.kt`)](#customloading)
 - [**DateTimeExtensions** (`DateTimeExtensions.kt`)](#datetimeextensions)
 - [**FragmentNavigator** (`FragmentNavigator.kt`)](#fragmentnavigator)
@@ -108,8 +109,44 @@ import com.zeesofttechlibraries.core.extensions.CopyData.copyToClipboard
 
 ---
 
+### CustomDialog
+A powerful, lifecycle-aware, and highly customizable dialog system.
+
+**Import:**
+```kotlin
+import com.zeesofttechlibraries.core.extensions.dialog.showCustomDialog
+import com.zeesofttechlibraries.core.extensions.dialog.DialogStyleModel
+```
+**Usage:**
+```kotlin
+// Define a style (optional)
+val successStyle = DialogStyleModel(
+    backgroundDrawable = R.drawable.dialog_bg_success,
+    iconDrawable = R.drawable.ic_success,
+    positiveButtonBackground = R.drawable.btn_positive
+)
+
+// Show the dialog from an Activity or Fragment
+showCustomDialog(
+    title = "Success!",
+    message = "Your profile has been updated.",
+    positiveText = "Got it",
+    positiveAction = { /* Handle action */ },
+    hideNegativeButton = true,
+    styleModel = successStyle
+)
+```
+
+---
+
 ### CustomLoading
-A highly customizable, full-screen loading dialog with optional background blur and Lottie animation support.
+A customizable, full-screen loading dialog with background blur and Lottie animation support.
+
+**Dependencies:** This utility requires Lottie and Blurry. Make sure to add them to your app's `build.gradle.kts`:
+```kotlin
+implementation("com.airbnb.android:lottie:5.2.0") // Use the latest version
+implementation("jp.wasabeef:blurry:4.0.1")
+```
 
 **Import:**
 ```kotlin
@@ -121,7 +158,7 @@ import com.zeesofttechlibraries.core.extensions.CustomLoading.dismissDialog
 // Show the loading dialog from an Activity or Fragment
 showCustomLoading(
     lifeCycleOwner = this,
-    loadingMessage = "Processing your request...",
+    loadingMessage = "Processing...",
     isBlurred = true
 )
 

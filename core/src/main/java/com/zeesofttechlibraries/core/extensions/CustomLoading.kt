@@ -6,6 +6,7 @@ import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
@@ -15,10 +16,11 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.RawRes
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
-import androidx.core.view.drawToBitmap
 import androidx.lifecycle.LifecycleOwner
 import com.airbnb.lottie.LottieAnimationView
 import com.zeesofttechlibraries.core.R
+import com.zeesofttechlibraries.core.extensions.BaseBlurry.addBlur
+import com.zeesofttechlibraries.core.extensions.BaseBlurry.removeBlur
 import jp.wasabeef.blurry.Blurry
 
 /**
@@ -30,6 +32,7 @@ object CustomLoading {
 
     // Single instance of the Dialog to prevent multiple dialogs showing simultaneously.
     private lateinit var dialog: Dialog
+    private var blurOverlay: ImageView ? = null
 
     /**
      * showCustomLoading()
@@ -62,35 +65,42 @@ object CustomLoading {
         // Get root view of the Activity. This is the layout that will be blurred.
         val activityRoot = activity.window.decorView.findViewById<ViewGroup>(android.R.id.content)
 
+        blurOverlay = ImageView(this).apply {
+            setBackgroundColor(android.R.color.transparent)
+            alpha = 0f
+            layoutParams = FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+        }
+        activityRoot.addView(blurOverlay)
         // Inflate custom dialog layout
         val customView = LayoutInflater.from(this).inflate(R.layout.custom_loading, null)
 
+        val wrappedLayout = FrameLayout(this).apply {
+            val margin = (10*activity.resources.displayMetrics.density).toInt()
+            setPadding(margin,0,margin,0)
+            addView(customView)
+        }
         // Optional ImageView in layout to hold blurred background
-        val blurImageView = customView.findViewById<ImageView>(R.id.blurImageView)
 
         // Ensure the root layout is fully laid out before trying to capture its bitmap for blur
-        activityRoot.post {
+            activityRoot.post {
 
             // Apply blur only if requested
             if (isBlurred) {
-                // Capture the activity root as a bitmap
-                val bitmap = activityRoot.drawToBitmap()
-
-                // Apply Blurry to the captured bitmap and set into the ImageView
-                Blurry.with(activity)
-                    .from(bitmap)
-                    .into(blurImageView)
+                addBlur(activityRoot,activity,blurOverlay)
             }
 
             // Prevent multiple dialogs showing simultaneously
             if (::dialog.isInitialized && dialog.isShowing) return@post
 
             // Get references to dialog views
-            val viewText = customView.findViewById<TextView>(R.id.loadingText)
-            val lottie = customView.findViewById<LottieAnimationView>(R.id.lottie)
-            val progressBar = customView.findViewById<ProgressBar>(R.id.progressBar2)
-            val card = customView.findViewById<LinearLayout>(R.id.card)
-            val mainCard = customView.findViewById<CardView>(R.id.mainCard)
+            val viewText = wrappedLayout.findViewById<TextView>(R.id.loadingText)
+            val lottie = wrappedLayout.findViewById<LottieAnimationView>(R.id.lottie)
+            val progressBar = wrappedLayout.findViewById<ProgressBar>(R.id.progressBar2)
+            val card = wrappedLayout.findViewById<LinearLayout>(R.id.card)
+            val mainCard = wrappedLayout.findViewById<CardView>(R.id.mainCard)
 
             // Set the loading text and color
             viewText.text = loadingMessage
@@ -130,7 +140,7 @@ object CustomLoading {
 
             // Create and show the dialog
             dialog = Dialog(this).apply {
-                setContentView(customView)
+                setContentView(wrappedLayout)
                 setCancelable(isCancelable)
 
                 // Transparent window so custom card and blur are visible
@@ -141,14 +151,20 @@ object CustomLoading {
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )
-
+                setOnDismissListener {
+                    removeBlur(
+                        activityRoot,  blurOverlay,
+                        setBlurOverlayNull = {blurOverlay = null}
+                    )
+                }
                 show()
-            }
 
+            }
+                lifeCycleOwner.lifecycle.addObserver(
+            LoadingDialogLifecycleObserver(dialog)
+        )
             // Make dialog lifecycle-aware to prevent leaks
-            lifeCycleOwner.lifecycle.addObserver(
-                LoadingDialogLifecycleObserver(dialog)
-            )
+
         }
     }
 

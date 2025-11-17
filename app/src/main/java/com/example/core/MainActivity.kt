@@ -37,18 +37,19 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Set a click listener on the root view to trigger all tests.
-        // The logs will appear in your Logcat window under the "TEST_CORE" tag.
-            Log.d("TEST_CORE", "--- STARTING CORE LIBRARY TESTS ---")
-            testUiAndViewUtilities()
-            testLoadingDialogs()
-            testDataAndValidation()
-            testClipboardUtilities()
-            testSystemAndNavigation()
-            testDateTimeExtensions()
-            testResourceExtensions()
-            testOtherUtilities()
+        showCustomLoading(this@MainActivity,"Loading....", isBlurred = true, isSquarer = true)
 
+        // The tests will now run automatically when the app starts.
+        // The logs will appear in your Logcat window under the "TEST_CORE" tag.
+//        Log.d("TEST_CORE", "--- STARTING CORE LIBRARY TESTS ---")
+//        testUiAndViewUtilities()
+//        testLoadingDialogs()
+//        testDataAndValidation()
+//        testClipboardUtilities()
+//        testSystemAndNavigation()
+//        testDateTimeExtensions()
+//        testResourceExtensions()
+//        testOtherUtilities()
     }
 
     private fun testUiAndViewUtilities() {
@@ -67,8 +68,8 @@ class MainActivity : AppCompatActivity() {
             bgColor = com.zeesofttechlibraries.core.R.color.mainColor
         )
 
-        // 3. ToastExtensions (showToast)
-        showToast(this,"This is a standard toast.")
+        // 3. ToastManager (showToast)
+        showToast(this, "This is a standard toast.")
 
         // 4. ViewAnimationExtensions
         binding.root.slideUp()
@@ -119,7 +120,6 @@ class MainActivity : AppCompatActivity() {
         val isInvalidEmail = "test@.com".isValidEmail()
         Log.d("TEST_CORE", "Email 'test@.com' is valid: $isInvalidEmail")
 
-
         // 11. ValidatePhoneNumber
         val isValidPhone = "1234567890".isValidPhoneNumber()
         Log.d("TEST_CORE", "Phone '1234567890' is valid: $isValidPhone")
@@ -145,7 +145,7 @@ class MainActivity : AppCompatActivity() {
 
         // 15. ActivityNavigator
         // Uncomment to test. This will navigate to MainActivity again.
-        // navigateToActivity(MainActivity::class.java, mapOf("test_extra" to "Hello!"))
+        // com.zeesofttechlibraries.core.extensions.navigateToActivity(MainActivity::class.java, mapOf("test_extra" to "Hello!"))
     }
 
     private fun testDateTimeExtensions() {
@@ -168,7 +168,7 @@ class MainActivity : AppCompatActivity() {
             Log.e("TEST_CORE", "Could not get color resource. Make sure it exists.")
         }
     }
-    
+
     private fun testOtherUtilities() {
         Log.d("TEST_CORE", "--- Testing Other Utilities ---")
         // 18. ToolbarManager
