@@ -30,24 +30,26 @@ import jp.wasabeef.blurry.Blurry
  */
 object CustomLoading {
 
-    // Single instance of the Dialog to prevent multiple dialogs showing simultaneously.
+    // Single instance of the Dialog to prevent multiple dialogs from showing at the same time
     private lateinit var dialog: Dialog
-    private var blurOverlay: ImageView ? = null
+
+    // Optional ImageView overlay for blur effect
+    private var blurOverlay: ImageView? = null
 
     /**
      * showCustomLoading()
      *
-     * Displays a customizable loading dialog.
+     * Displays a customizable loading dialog with optional blur.
      *
-     * @param lifeCycleOwner   Lifecycle owner to automatically dismiss dialog when destroyed.
-     * @param loadingMessage   Text displayed below the animation or progress bar.
+     * @param lifeCycleOwner   LifecycleOwner to automatically dismiss dialog when Activity/Fragment is destroyed.
+     * @param loadingMessage   Text to display under the animation or progress bar.
      * @param lottieRaw        Optional Lottie animation resource (default splash_loading).
      * @param bgColor          Optional background color for the card.
-     * @param textColor        Color for loading text.
-     * @param bgDrawable       Optional drawable background for card.
-     * @param isSquarer        If true, makes the card square-ish and centered.
-     * @param isCancelable     Allows closing by tapping outside the dialog.
-     * @param isBlurred        If true, blurs the underlying activity.
+     * @param textColor        Color for the loading text.
+     * @param bgDrawable       Optional drawable background for the card.
+     * @param isSquarer        If true, makes the card square-ish and centers content.
+     * @param isCancelable     Whether tapping outside dismisses the dialog.
+     * @param isBlurred        Whether to blur the underlying activity.
      */
     fun Context.showCustomLoading(
         lifeCycleOwner: LifecycleOwner,
@@ -62,40 +64,50 @@ object CustomLoading {
     ) {
         val activity = this as Activity
 
-        // Get root view of the Activity. This is the layout that will be blurred.
+        // Get the Activity's root view for adding blur overlay
+        // android.R.id.content contains all your Activity UI
         val activityRoot = activity.window.decorView.findViewById<ViewGroup>(android.R.id.content)
 
+        // Create a transparent ImageView that will hold the blurred screenshot
         blurOverlay = ImageView(this).apply {
+            // Transparent so we see only the blurred bitmap
             setBackgroundColor(android.R.color.transparent)
-            alpha = 0f
+            alpha = 0f // start invisible, will fade in
             layoutParams = FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
+            scaleType = ImageView.ScaleType.CENTER_CROP // ensures the bitmap scales properly
         }
+
+        // Add the overlay to the root view, above all existing content
         activityRoot.addView(blurOverlay)
-        // Inflate custom dialog layout
+
+        // Inflate your custom loading dialog layout
         val customView = LayoutInflater.from(this).inflate(R.layout.custom_loading, null)
 
+        // Wrap it in a FrameLayout for optional padding/margin
         val wrappedLayout = FrameLayout(this).apply {
-            val margin = (10*activity.resources.displayMetrics.density).toInt()
-            setPadding(margin,0,margin,0)
-            addView(customView)
+            val margin = (10 * activity.resources.displayMetrics.density).toInt()
+            setPadding(margin, 0, margin, 0)
+            addView(customView) // add the dialog layout inside the wrapper
         }
-        // Optional ImageView in layout to hold blurred background
 
-        // Ensure the root layout is fully laid out before trying to capture its bitmap for blur
-            activityRoot.post {
+        /**
+         * Run code inside post{} to ensure the root layout is fully laid out.
+         * This guarantees width/height are measured so Blurry can capture a valid bitmap.
+         */
+        activityRoot.post {
 
-            // Apply blur only if requested
+            // If blur is requested, apply it to the root view
             if (isBlurred) {
-                addBlur(activityRoot,activity,blurOverlay)
+                addBlur(activityRoot, activity, blurOverlay)
             }
 
-            // Prevent multiple dialogs showing simultaneously
+            // Prevent creating multiple dialogs if one is already showing
             if (::dialog.isInitialized && dialog.isShowing) return@post
 
-            // Get references to dialog views
+            // Get references to key views inside the dialog layout
             val viewText = wrappedLayout.findViewById<TextView>(R.id.loadingText)
             val lottie = wrappedLayout.findViewById<LottieAnimationView>(R.id.lottie)
             val progressBar = wrappedLayout.findViewById<ProgressBar>(R.id.progressBar2)
@@ -106,17 +118,17 @@ object CustomLoading {
             viewText.text = loadingMessage
             viewText.setTextColor(ContextCompat.getColor(this, textColor))
 
-            // Set custom background drawable if provided
+            // Apply custom drawable background if provided
             if (bgDrawable != R.drawable.custom_toast_bg) {
                 card.background = ContextCompat.getDrawable(this, bgDrawable)
             }
 
-            // Set custom background color if provided
+            // Apply custom background color if provided
             if (bgColor != R.color.mainColor) {
                 card.setBackgroundColor(ContextCompat.getColor(this, bgColor))
             }
 
-            // Show either Lottie animation or ProgressBar
+            // Show Lottie animation if provided; otherwise show ProgressBar
             if (lottieRaw != R.raw.splash_loading) {
                 lottie.visibility = LottieAnimationView.VISIBLE
                 progressBar.visibility = ProgressBar.GONE
@@ -126,60 +138,63 @@ object CustomLoading {
                 progressBar.visibility = ProgressBar.VISIBLE
             }
 
-            // Adjust layout for square card if requested
+            // Adjust layout if a square card is requested
             if (isSquarer) {
                 card.orientation = LinearLayout.VERTICAL
                 card.gravity = Gravity.CENTER or Gravity.CENTER_HORIZONTAL
                 viewText.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
 
                 val params = mainCard.layoutParams
-                params.width = 500 // square width
+                params.width = 500 // fixed square width
                 params.height = ViewGroup.LayoutParams.WRAP_CONTENT
                 mainCard.layoutParams = params
             }
 
             // Create and show the dialog
             dialog = Dialog(this).apply {
-                setContentView(wrappedLayout)
+                setContentView(wrappedLayout) // important: pass wrappedLayout, not customView
                 setCancelable(isCancelable)
 
-                // Transparent window so custom card and blur are visible
+                // Make window transparent so we can see the blur behind the card
                 window?.setBackgroundDrawableResource(android.R.color.transparent)
 
-                // Fullscreen layout
+                // Set fullscreen size
                 window?.setLayout(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )
+
+                // Dismiss listener removes the blur overlay safely
                 setOnDismissListener {
                     removeBlur(
-                        activityRoot,  blurOverlay,
-                        setBlurOverlayNull = {blurOverlay = null}
+                        activityRoot,
+                        blurOverlay,
+                        setBlurOverlayNull = { blurOverlay = null }
                     )
                 }
+
                 show()
-
             }
-                lifeCycleOwner.lifecycle.addObserver(
-            LoadingDialogLifecycleObserver(dialog)
-        )
-            // Make dialog lifecycle-aware to prevent leaks
 
+            // Add lifecycle observer to automatically dismiss the dialog when Activity/Fragment is destroyed
+            lifeCycleOwner.lifecycle.addObserver(
+                LoadingDialogLifecycleObserver(dialog)
+            )
         }
     }
 
     /**
      * dismissDialog():
      * Safely dismiss the dialog and remove blur from activity root.
-     *
-     * @param context The context from which the dialog was created (Activity required for blur cleanup).
+     * @param context Activity context (required for removing blur).
      */
     fun dismissDialog(context: Context) {
         if (::dialog.isInitialized && dialog.isShowing) {
             dialog.dismiss()
 
-            // Remove blurred bitmap from the activity
-            val activityRoot = (context as Activity).window.decorView.findViewById<ViewGroup>(android.R.id.content)
+            // Remove any blurred bitmap from the activity root
+            val activityRoot =
+                (context as Activity).window.decorView.findViewById<ViewGroup>(android.R.id.content)
             Blurry.delete(activityRoot)
         }
     }
