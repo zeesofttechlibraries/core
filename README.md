@@ -108,6 +108,12 @@ import com.zeesofttechlibraries.core.extensions.CopyData.copyToClipboard
 
 ### CustomAlertDialog
 A powerful, all-in-one alert dialog with support for Lottie animations, background blur, and extensive customization.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/06f6fa80-2c63-46db-a513-887467ac7021" width="300"/>
+  <img src="https://github.com/user-attachments/assets/e82fe793-8465-43bf-b962-6fd147ad3dcc" width="300"/>
+</p>
+
+
 
 **Import:**
 ```kotlin
