@@ -4,11 +4,15 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
+import android.view.LayoutInflater
 import android.view.Window
 import android.view.WindowManager
+import android.widget.ProgressBar
+import androidx.annotation.RawRes
 import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import com.airbnb.lottie.LottieAnimationView
 import com.zeesofttechlibraries.core.R
 import java.lang.ref.WeakReference
 
@@ -34,7 +38,7 @@ object LoadingDialogManager {
      * Make sure your `loading.xml` layout exists in `res/layout/`.
      */
     @JvmStatic
-    fun showLoadingDialog(context: Context) {
+    fun showLoadingDialog(context: Context,@RawRes lottieAnimation: Int?=null) {
         val activity = context as? Activity ?: return
         if (activity.isFinishing || activity.isDestroyed) return
 
@@ -43,10 +47,19 @@ object LoadingDialogManager {
 
         dismissLoadingDialog(context)
 
+        val view = LayoutInflater.from(context).inflate(R.layout.loading, null)
+        val lottieAnim = view.findViewById<LottieAnimationView>(R.id.lottieAnim)
+        val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
+
+        if(lottieAnimation!=null){
+            lottieAnim.makeVisible()
+            progressBar.makeGone()
+            lottieAnim.setAnimation(lottieAnimation)
+        }
         val dialog = Dialog(activity, R.style.TransparentDialog).apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setCancelable(false)
-            setContentView(R.layout.loading)
+            setContentView(view)
             window?.apply {
                 setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
                 addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)

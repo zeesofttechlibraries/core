@@ -161,6 +161,7 @@ object CustomAlertDialog {
                 negativeButton.makeVisible()
                 negativeButton.text = negativeButtonText
                 negativeButton.setBackgroundResource(negativeButtonBg)
+                if( icon == null) iconView.setImageResource(R.drawable.cross)
                 negativeButton.setTextColor(ContextCompat.getColor(this@showCustomAlertDialog, negativeButtonTextColor))
             } else {
                 negativeButton.makeGone()

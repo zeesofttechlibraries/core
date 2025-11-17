@@ -9,8 +9,10 @@ import com.zeesofttechlibraries.core.extensions.CopyData.copyToClipboard
 import com.zeesofttechlibraries.core.extensions.CustomAlertDialog.showCustomAlertDialog
 import com.zeesofttechlibraries.core.extensions.CustomLoading
 import com.zeesofttechlibraries.core.extensions.CustomLoading.showCustomLoading
+import com.zeesofttechlibraries.core.extensions.LoadingDialogManager.showLoadingDialog
 import com.zeesofttechlibraries.core.extensions.RotateAnimationUtil
 import com.zeesofttechlibraries.core.extensions.ShowCustomToast.showCustomToast
+import com.zeesofttechlibraries.core.extensions.ShowModernToast.showModernToast
 import com.zeesofttechlibraries.core.extensions.ToastManager.showToast
 import com.zeesofttechlibraries.core.extensions.formatTo
 import com.zeesofttechlibraries.core.extensions.generateRandomString
@@ -24,6 +26,7 @@ import com.zeesofttechlibraries.core.extensions.makeGone
 import com.zeesofttechlibraries.core.extensions.makeVisible
 import com.zeesofttechlibraries.core.extensions.setDebouncedClickListener
 import com.zeesofttechlibraries.core.extensions.shareText
+import com.zeesofttechlibraries.core.extensions.showLoadingDialog
 import com.zeesofttechlibraries.core.extensions.slideUp
 import com.zeesofttechlibraries.core.extensions.toDate
 import com.zeesofttechlibraries.core.extensions.toRelativeTime
@@ -38,8 +41,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-        showCustomAlertDialog(this@MainActivity,"Test Title","Test Message", positiveButtonAction = {}, negativeButtonAction = {} , isOnTouchOutsideCancel = true)
+        showModernToast("modern")
+        showLoadingDialog(this,R.raw.premium_animation)
         binding.first.setDebouncedClickListener {
         showCustomAlertDialog(this@MainActivity,"Test Title","Test Message", positiveButtonAction = {}, negativeButtonAction = {}, topBgColor = com.zeesofttechlibraries.core.R.color.mainColor )
 
@@ -53,7 +56,11 @@ class MainActivity : AppCompatActivity() {
 
         }
         binding.fourth.setDebouncedClickListener {
-        showCustomAlertDialog(this@MainActivity,"Test Title","Test Message", positiveButtonAction = {}, negativeButtonAction = {}, negativeButtonText = "Cancel", positiveButtonText = "Ok", topBgColor = com.zeesofttechlibraries.core.R.color.alertRed , isBlurred = true,)
+        showCustomAlertDialog(this@MainActivity,"Test Title","Basic details Deleted successfully", positiveButtonAction = {
+            showCustomToast("Positive Button Clicked")
+        }, negativeButtonAction = {
+            showCustomToast("Negative Button Clicked")
+        }, negativeButtonText = "Cancel", positiveButtonText = "Ok", topBgColor = com.zeesofttechlibraries.core.R.color.alertRed , isBlurred = true,)
 
         }
 
