@@ -6,15 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.core.databinding.ActivityMainBinding
 import com.zeesofttechlibraries.core.extensions.CopyData.copyToClipboard
-import com.zeesofttechlibraries.core.extensions.CustomAlertDialog.dismissAlertDialog
-import com.zeesofttechlibraries.core.extensions.CustomAlertDialog.showCustomAlertDialog
 import com.zeesofttechlibraries.core.extensions.CustomLoading
 import com.zeesofttechlibraries.core.extensions.CustomLoading.showCustomLoading
-import com.zeesofttechlibraries.core.extensions.LoadingDialogManager.showLoadingDialog
+import com.zeesofttechlibraries.core.extensions.GetIcons.Icon
+import com.zeesofttechlibraries.core.extensions.GetIcons.getIcons
 import com.zeesofttechlibraries.core.extensions.NetworkMonitor
 import com.zeesofttechlibraries.core.extensions.RotateAnimationUtil
 import com.zeesofttechlibraries.core.extensions.ShowCustomToast.showCustomToast
-import com.zeesofttechlibraries.core.extensions.ShowModernToast.showModernToast
 import com.zeesofttechlibraries.core.extensions.ToastManager.showToast
 import com.zeesofttechlibraries.core.extensions.formatTo
 import com.zeesofttechlibraries.core.extensions.generateRandomString
@@ -61,9 +59,11 @@ class MainActivity : AppCompatActivity() {
 //        )
 //        showCustomToast("This is a custom toast!",)
 //        showModernToast("This is a modern toast!")
-        setupToolbar("Test Toolbar Test Toolbar Test Toolbar", backgroundDrawable = R.drawable.bg_mixed_shape, menuIcon1 = com.zeesofttechlibraries.core.R.drawable.default_toast_icon, menuIcon2 = com.zeesofttechlibraries.core.R.drawable.share_ic, onMenu1Click = {})
+        setupToolbar("Test Toolbar Test Toolbar Test Toolbar", backgroundDrawable = R.drawable.bg_mixed_shape, menuIcon1 = com.zeesofttechlibraries.core.R.drawable.default_toast_icon, menuIcon2 = com.zeesofttechlibraries.core.R.drawable.ic_share_outline, onMenu1Click = {})
          networkMonitor  = NetworkMonitor(this,this)
         networkMonitor.startMonitoring()
+
+//        getIcons()
 
 
 

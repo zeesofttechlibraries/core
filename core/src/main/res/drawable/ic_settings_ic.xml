@@ -1,4 +1,4 @@
-<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt"
+<ic_settings_outline xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt"
     android:viewportWidth="512"
     android:viewportHeight="512"
     android:width="512dp"
@@ -17,4 +17,4 @@
         android:strokeColor="@color/white"
         android:strokeAlpha="0.9764706"
         android:strokeWidth="1" />
-</vector>
+</ic_settings_outline>
