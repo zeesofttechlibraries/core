@@ -25,7 +25,7 @@ Add the dependency to your module's `build.gradle.kts` (or `build.gradle`) file:
 
 ```kotlin
 dependencies {
-    implementation("com.github.zeesofttechlibraries:core:1.2.5")
+    implementation("com.github.zeesofttechlibraries:core:$latest_version")
 }
 ```
 
