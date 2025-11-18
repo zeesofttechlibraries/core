@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.core.databinding.ActivityMainBinding
 import com.zeesofttechlibraries.core.extensions.CopyData.copyToClipboard
+import com.zeesofttechlibraries.core.extensions.CustomAlertDialog.dismissAlertDialog
 import com.zeesofttechlibraries.core.extensions.CustomAlertDialog.showCustomAlertDialog
 import com.zeesofttechlibraries.core.extensions.CustomLoading
 import com.zeesofttechlibraries.core.extensions.CustomLoading.showCustomLoading
@@ -53,7 +54,9 @@ class MainActivity : AppCompatActivity() {
 //            positiveButtonBg = com.zeesofttechlibraries.core.R.drawable.warning_bg,
 //            topBgColor = com.zeesofttechlibraries.core.R.color.warning,
 //            lottieAnimation = com.zeesofttechlibraries.core.R.raw.warning_animation,
-//            positiveButtonAction = {},
+//            positiveButtonAction = {
+//                dismissAlertDialog()
+//            },
 //            isBlurred = true
 //        )
 //        showCustomToast("This is a custom toast!",)

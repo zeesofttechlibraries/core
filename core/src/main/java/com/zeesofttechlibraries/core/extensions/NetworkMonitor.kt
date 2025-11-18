@@ -12,9 +12,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import com.zeesofttechlibraries.core.R
 import com.zeesofttechlibraries.core.extensions.CustomAlertDialog.dismissAlertDialog
 import com.zeesofttechlibraries.core.extensions.CustomAlertDialog.showCustomAlertDialog
 import com.zeesofttechlibraries.core.extensions.CustomLoading.isDialogShowing
+import com.zeesofttechlibraries.core.extensions.ShowCustomToast.showCustomToast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -49,7 +51,7 @@ class NetworkMonitor(val context: Context, val lifecycleOwner: LifecycleOwner) {
                 dismissWarningDialog()
             } else {
                 showWarningDialog()
-
+                context.showCustomToast(context.getString(R.string.still_no_internet), bgColor = R.color.warning)
             }
         }
     }
@@ -59,9 +61,9 @@ class NetworkMonitor(val context: Context, val lifecycleOwner: LifecycleOwner) {
             context.runOnUiThread {
                 context.showCustomAlertDialog(
                     lifeCycleOwner = lifecycleOwner,
-                    "No Internet",
-                    "Please connect to internet to continue",
-                    positiveButtonText = "Retry",
+                    context.getString(R.string.no_internet),
+                    context.getString(R.string.please_connect_to_internet_to_continue),
+                    positiveButtonText = context.getString(R.string.retry),
                     positiveButtonTextColor = com.zeesofttechlibraries.core.R.color.warning,
                     positiveButtonBg = com.zeesofttechlibraries.core.R.drawable.warning_bg,
                     topBgColor = com.zeesofttechlibraries.core.R.color.warning,
@@ -83,9 +85,9 @@ class NetworkMonitor(val context: Context, val lifecycleOwner: LifecycleOwner) {
             Handler(Looper.getMainLooper()).post {
                 context.showCustomAlertDialog(
                     lifeCycleOwner = lifecycleOwner,
-                    "No Internet",
-                    "Please connect to internet to continue",
-                    positiveButtonText = "Retry",
+                    context.getString(R.string.no_internet),
+                    context.getString(R.string.please_connect_to_internet_to_continue),
+                    positiveButtonText = context.getString(R.string.retry),
                     positiveButtonTextColor = com.zeesofttechlibraries.core.R.color.warning,
                     positiveButtonBg = com.zeesofttechlibraries.core.R.drawable.warning_bg,
                     topBgColor = com.zeesofttechlibraries.core.R.color.warning,
