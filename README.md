@@ -213,8 +213,8 @@ import com.zeesofttechlibraries.core.extensions.GetIcons.getIcons
 ```
 **Usage:**
 ```kotlin
-val iconList = getIcons()
-// Returns List<Icon>
+val icon = getIcons(Icon.BACK_IC)
+// Returns drawable resource
 ```
 
 ---
