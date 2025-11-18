@@ -41,21 +41,24 @@ This document provides a comprehensive overview of the utility classes and exten
 - [**ClickExtension** (`ClickExtension.kt`)](#clickextension)
 - [**CopyData** (`CopyData.kt`)](#copydata)
 - [**CustomAlertDialog** (`CustomAlertDialog.kt`)](#customalertdialog)
-- [**CustomDialog** (`dialog/` package)](#customdialog)
 - [**CustomLoading** (`CustomLoading.kt`)](#customloading)
 - [**DateTimeExtensions** (`DateTimeExtensions.kt`)](#datetimeextensions)
 - [**FragmentNavigator** (`FragmentNavigator.kt`)](#fragmentnavigator)
 - [**GenerateRandomString** (`GenerateRandomString.kt`)](#generaterandomstring)
 - [**GetClipboardData** (`GetClipboardData.kt`)](#getclipboarddata)
+- [**GetIcons** (`GetIcons.kt`)](#geticons)
 - [**KeyboardExtensions** (`KeyboardExtensions.kt`)](#keyboardextensions)
 - [**LoadingDialogManager** (`LoadingDialogManager.kt`)](#loadingdialogmanager)
 - [**NetworkExtension** (`NetworkExtension.kt`)](#networkextension)
+- [**NetworkMonitor** (`NetworkMonitor.kt`)](#networkmonitor)
 - [**ResourceExtensions** (`ResourceExtensions.kt`)](#resourceextensions)
 - [**RotateAnimationUtil** (`RotateAnimationUtil.kt`)](#rotateanimationutil)
+- [**SetCircleImage** (`SetCircleImage.kt`)](#setcircleimage)
 - [**SharePlanText** (`SharePlanText.kt`)](#shareplantext)
 - [**ShowCustomToast** (`ShowCustomToast.kt`)](#showcustomtoast)
+- [**ShowModernToast** (`ShowModernToast.kt`)](#showmoderntoast)
 - [**ToastExtensions** (`ToastExtensions.kt`)](#toastextensions)
-- [**ToolbarManager** (`ToolbarManager.kt`)](#toolbarmanager)
+- [**ToolbarExtensions** (`ToolbarExtensions.kt`)](#toolbarextensions)
 - [**ValidateEmail** (`ValidateEmail.kt`)](#validateemail)
 - [**ValidatePhoneNumber** (`ValidatePhoneNumber.kt`)](#validatephonenumber)
 - [**ViewAnimationExtensions** (`ViewAnimationExtensions.kt`)](#viewanimationextensions)
@@ -108,12 +111,6 @@ import com.zeesofttechlibraries.core.extensions.CopyData.copyToClipboard
 
 ### CustomAlertDialog
 A powerful, all-in-one alert dialog with support for Lottie animations, background blur, and extensive customization.
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/06f6fa80-2c63-46db-a513-887467ac7021" width="300"/>
-  <img src="https://github.com/user-attachments/assets/e82fe793-8465-43bf-b962-6fd147ad3dcc" width="300"/>
-</p>
-
-
 
 **Import:**
 ```kotlin
@@ -121,7 +118,6 @@ import com.zeesofttechlibraries.core.extensions.CustomAlertDialog.showCustomAler
 ```
 **Usage:**
 ```kotlin
-// Show the dialog from an Activity or Fragment
 showCustomAlertDialog(
     lifeCycleOwner = this,
     title = "Confirm Action",
@@ -129,30 +125,7 @@ showCustomAlertDialog(
     lottieAnimation = R.raw.delete_animation,
     isBlurred = true,
     positiveButtonText = "Delete",
-    negativeButtonText = "Cancel",
-    positiveButtonAction = { /* Handle delete */ },
-    negativeButtonAction = { /* Handle cancel */ }
-)
-```
-
----
-
-### CustomDialog
-A flexible, lifecycle-aware dialog system for creating custom-styled dialogs.
-
-**Import:**
-```kotlin
-import com.zeesofttechlibraries.core.extensions.dialog.showCustomDialog
-import com.zeesofttechlibraries.core.extensions.dialog.DialogStyleModel
-```
-**Usage:**
-```kotlin
-val successStyle = DialogStyleModel(iconDrawable = R.drawable.ic_success)
-showCustomDialog(
-    title = "Success!",
-    message = "Your profile has been updated.",
-    positiveText = "Got it",
-    styleModel = successStyle
+    positiveButtonAction = { /* ... */ }
 )
 ```
 
@@ -168,14 +141,7 @@ import com.zeesofttechlibraries.core.extensions.CustomLoading.dismissDialog
 ```
 **Usage:**
 ```kotlin
-// Show the loading dialog
-showCustomLoading(
-    lifeCycleOwner = this,
-    loadingMessage = "Processing...",
-    isBlurred = true
-)
-
-// Dismiss the dialog
+showCustomLoading(lifeCycleOwner = this, loadingMessage = "Processing...")
 dismissDialog(this)
 ```
 
@@ -187,7 +153,6 @@ Extension functions for `Date` and `String` to simplify date and time manipulati
 **Import:**
 ```kotlin
 import com.zeesofttechlibraries.core.extensions.formatTo
-import com.zeesofttechlibraries.core.extensions.toRelativeTime
 ```
 **Usage:**
 ```kotlin
@@ -239,6 +204,21 @@ val copiedText = context.getClipboardText()
 
 ---
 
+### GetIcons
+A utility to retrieve a list of predefined icons with names and drawables.
+
+**Import:**
+```kotlin
+import com.zeesofttechlibraries.core.extensions.GetIcons.getIcons
+```
+**Usage:**
+```kotlin
+val iconList = getIcons()
+// Returns List<Icon>
+```
+
+---
+
 ### KeyboardExtensions
 Utility functions to programmatically show or hide the soft keyboard.
 
@@ -264,7 +244,6 @@ import com.zeesofttechlibraries.core.extensions.LoadingDialogManager
 **Usage:**
 ```kotlin
 LoadingDialogManager.showLoadingDialog(this)
-LoadingDialogManager.dismissLoadingDialog(this)
 ```
 
 ---
@@ -279,6 +258,22 @@ import com.zeesofttechlibraries.core.extensions.isConnectedToInternet
 **Usage:**
 ```kotlin
 if (context.isConnectedToInternet()) { /* ... */ }
+```
+
+---
+
+### NetworkMonitor
+A lifecycle-aware utility that monitors network connectivity and displays a custom alert dialog when the connection is lost.
+
+**Import:**
+```kotlin
+import com.zeesofttechlibraries.core.extensions.NetworkMonitor
+```
+**Usage:**
+```kotlin
+// In your Activity's onCreate
+val networkMonitor = NetworkMonitor(this, this) // Pass context and lifecycle owner
+networkMonitor.startMonitoring()
 ```
 
 ---
@@ -312,6 +307,20 @@ myImageView.startAnimation(rotateAnim)
 
 ---
 
+### SetCircleImage
+An extension function to load an image into an `ImageView` and clip it to a circle using Glide.
+
+**Import:**
+```kotlin
+import com.zeesofttechlibraries.core.extensions.setCircleImage
+```
+**Usage:**
+```kotlin
+myImageView.setCircleImage(R.drawable.my_image)
+```
+
+---
+
 ### SharePlanText
 An extension function on `Context` to easily share plain text.
 
@@ -340,6 +349,20 @@ showCustomToast(message = "Profile updated!")
 
 ---
 
+### ShowModernToast
+An extension function to show a modern, styled toast with an icon.
+
+**Import:**
+```kotlin
+import com.zeesofttechlibraries.core.extensions.showModernToast
+```
+**Usage:**
+```kotlin
+showModernToast("This is a modern toast!")
+```
+
+---
+
 ### ToastExtensions
 Provides a lifecycle-aware `Toast` that prevents queuing.
 
@@ -354,16 +377,20 @@ context.showToast("Operation successful")
 
 ---
 
-### ToolbarManager
-A utility for setting up a standardized `AppCompatActivity` toolbar.
+### ToolbarExtensions
+An extension function to easily set up a standard `AppCompatActivity` toolbar with a title and optional menu icons with click listeners.
 
 **Import:**
 ```kotlin
-import com.zeesofttechlibraries.core.extensions.ToolbarManager
+import com.zeesofttechlibraries.core.extensions.setupToolbar
 ```
 **Usage:**
 ```kotlin
-ToolbarManager.setupToolbar(activity = this, title = "My Screen")
+setupToolbar(
+    title = "My Screen",
+    menuIcon1 = R.drawable.ic_search,
+    onMenu1Click = { /* Handle search click */ }
+)
 ```
 
 ---
@@ -416,7 +443,6 @@ Convenience functions to change a view's visibility.
 **Import:**
 ```kotlin
 import com.zeesofttechlibraries.core.extensions.makeVisible
-import com.zeesofttechlibraries.core.extensions.makeGone
 ```
 **Usage:**
 ```kotlin
