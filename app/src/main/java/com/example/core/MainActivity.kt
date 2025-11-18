@@ -26,7 +26,6 @@ import com.zeesofttechlibraries.core.extensions.makeGone
 import com.zeesofttechlibraries.core.extensions.makeVisible
 import com.zeesofttechlibraries.core.extensions.setDebouncedClickListener
 import com.zeesofttechlibraries.core.extensions.shareText
-import com.zeesofttechlibraries.core.extensions.showLoadingDialog
 import com.zeesofttechlibraries.core.extensions.slideUp
 import com.zeesofttechlibraries.core.extensions.toDate
 import com.zeesofttechlibraries.core.extensions.toRelativeTime
@@ -41,28 +40,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        showModernToast("modern")
-        showLoadingDialog(this,R.raw.premium_animation)
-        binding.first.setDebouncedClickListener {
-        showCustomAlertDialog(this@MainActivity,"Test Title","Test Message", positiveButtonAction = {}, negativeButtonAction = {}, topBgColor = com.zeesofttechlibraries.core.R.color.mainColor )
+        showCustomAlertDialog(this@MainActivity,"title","description", negativeButtonText = "Cancel", topBgColor = com.zeesofttechlibraries.core.R.color.alertRed, lottieAnimation = R.raw.premium_animation, positiveButtonAction = {}, negativeButtonAction = {}, isBlurred = true)
+        showCustomToast("This is a custom toast!",)
+        showModernToast("This is a modern toast!")
 
-        }
-        binding.second.setDebouncedClickListener {
-        showCustomAlertDialog(this@MainActivity,"Test Title","Test Message", positiveButtonAction = {}, negativeButtonAction = {}, lottieAnimation = R.raw.premium_animation )
 
-        }
-        binding.third.setDebouncedClickListener {
-        showCustomAlertDialog(this@MainActivity,"Test Title","Test Message", positiveButtonAction = {}, negativeButtonAction = {}, negativeButtonText = "Cancel", positiveButtonText = "Ok", topBgColor = com.zeesofttechlibraries.core.R.color.alertRed )
-
-        }
-        binding.fourth.setDebouncedClickListener {
-        showCustomAlertDialog(this@MainActivity,"Test Title","Basic details Deleted successfully", positiveButtonAction = {
-            showCustomToast("Positive Button Clicked")
-        }, negativeButtonAction = {
-            showCustomToast("Negative Button Clicked")
-        }, negativeButtonText = "Cancel", positiveButtonText = "Ok", topBgColor = com.zeesofttechlibraries.core.R.color.alertRed , isBlurred = true,)
-
-        }
 
 
 

@@ -19,6 +19,7 @@ import com.airbnb.lottie.LottieAnimationView
 import com.zeesofttechlibraries.core.R
 import com.zeesofttechlibraries.core.extensions.BaseBlurry.addBlur
 import com.zeesofttechlibraries.core.extensions.BaseBlurry.removeBlur
+import java.lang.ref.WeakReference
 
 /**
  * CustomAlertDialog
@@ -40,7 +41,7 @@ object CustomAlertDialog {
     private lateinit var dialog: Dialog
 
     // Overlay image used to draw blur effect behind dialog
-    private var blurOverly: ImageView? = null
+    private var blurOverly: WeakReference<ImageView>? = null
 
 
     /**
@@ -90,7 +91,7 @@ object CustomAlertDialog {
         val rootView = activity.window.decorView.rootView.findViewById<ViewGroup>(android.R.id.content)
 
         // Transparent overlay where the blurred bitmap is drawn
-        blurOverly = ImageView(activity).apply {
+        val overly = ImageView(activity).apply {
             setBackgroundColor(android.R.color.transparent)
             alpha = 0f
             layoutParams = FrameLayout.LayoutParams(
@@ -98,7 +99,9 @@ object CustomAlertDialog {
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
         }
-        rootView.addView(blurOverly)
+        rootView.addView(overly)
+        blurOverly = WeakReference(overly)
+
 
         // Inflate dialog layout
         val alertDialogView = LayoutInflater.from(this).inflate(R.layout.custom_alert_dialog, null)
@@ -112,8 +115,11 @@ object CustomAlertDialog {
 
         rootView.post {
 
-            // Apply blur effect if enabled
-            if (isBlurred) addBlur(rootView, activity, blurOverly)
+            if (isBlurred) {
+                blurOverly?.get()?.let{
+                addBlur(rootView, activity, it)
+                }
+            }
 
             // Prevent duplicate dialogs
             if (::dialog.isInitialized && dialog.isShowing) return@post
@@ -194,9 +200,10 @@ object CustomAlertDialog {
                     )
                 }
 
-                // Remove blur on close
                 setOnDismissListener {
-                    removeBlur(rootView, blurOverly) { blurOverly = null }
+                    blurOverly?.get().let {
+                        removeBlur(rootView, it) { blurOverly = null }
+                    }
                     dismissAlertDialog()
                 }
 
