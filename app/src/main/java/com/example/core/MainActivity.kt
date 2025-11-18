@@ -41,7 +41,18 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        showCustomAlertDialog(this@MainActivity,"title","description", negativeButtonText = "Cancel", topBgColor = com.zeesofttechlibraries.core.R.color.alertRed, positiveButtonAction = {}, isBlurred = true)
+        showCustomAlertDialog(
+            this@MainActivity,
+            "No Internet",
+            "Please connect to internet to continue",
+            positiveButtonText = "Retry",
+            positiveButtonTextColor = com.zeesofttechlibraries.core.R.color.warning,
+            positiveButtonBg = com.zeesofttechlibraries.core.R.drawable.warning_bg,
+            topBgColor = com.zeesofttechlibraries.core.R.color.warning,
+            lottieAnimation = com.zeesofttechlibraries.core.R.raw.warning_animation,
+            positiveButtonAction = {},
+            isBlurred = true
+        )
         showCustomToast("This is a custom toast!",)
         showModernToast("This is a modern toast!")
         setupToolbar("Test Toolbar Test Toolbar Test Toolbar", backgroundDrawable = R.drawable.bg_mixed_shape, menuIcon1 = com.zeesofttechlibraries.core.R.drawable.default_toast_icon, menuIcon2 = com.zeesofttechlibraries.core.R.drawable.share_ic, onMenu1Click = {showModernToast("Menu clicked!")})

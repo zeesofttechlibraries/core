@@ -6,5 +6,6 @@
     <color name="secondMainColor">#4285F4</color>
     <color name="alertDialogDefaultColor">#01CC90</color>
     <color name="alertRed">#FF2357</color>
+    <color name="warning">#F4C300</color>
 
 </resources>
