@@ -82,7 +82,7 @@ object CustomAlertDialog {
         isCancelable: Boolean = false,
         isOnTouchOutsideCancel: Boolean = false,
         positiveButtonAction: () -> Unit,
-        negativeButtonAction: () -> Unit
+        negativeButtonAction: (() -> Unit)?=null
     ) {
 
         val activity = (this as Activity)
@@ -181,7 +181,7 @@ object CustomAlertDialog {
 
             // Secondary Button Action
             negativeButton.setDebouncedClickListener {
-                negativeButtonAction.invoke()
+                negativeButtonAction?.invoke()
                 dialog.dismiss()
             }
 

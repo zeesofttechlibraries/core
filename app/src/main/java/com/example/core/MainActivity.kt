@@ -25,6 +25,7 @@ import com.zeesofttechlibraries.core.extensions.isValidPhoneNumber
 import com.zeesofttechlibraries.core.extensions.makeGone
 import com.zeesofttechlibraries.core.extensions.makeVisible
 import com.zeesofttechlibraries.core.extensions.setDebouncedClickListener
+import com.zeesofttechlibraries.core.extensions.setupToolbar
 import com.zeesofttechlibraries.core.extensions.shareText
 import com.zeesofttechlibraries.core.extensions.slideUp
 import com.zeesofttechlibraries.core.extensions.toDate
@@ -40,9 +41,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        showCustomAlertDialog(this@MainActivity,"title","description", negativeButtonText = "Cancel", topBgColor = com.zeesofttechlibraries.core.R.color.alertRed, lottieAnimation = R.raw.premium_animation, positiveButtonAction = {}, negativeButtonAction = {}, isBlurred = true)
+        showCustomAlertDialog(this@MainActivity,"title","description", negativeButtonText = "Cancel", topBgColor = com.zeesofttechlibraries.core.R.color.alertRed, positiveButtonAction = {}, isBlurred = true)
         showCustomToast("This is a custom toast!",)
         showModernToast("This is a modern toast!")
+        setupToolbar("Test Toolbar Test Toolbar Test Toolbar", backgroundDrawable = R.drawable.bg_mixed_shape, menuIcon1 = com.zeesofttechlibraries.core.R.drawable.default_toast_icon, menuIcon2 = com.zeesofttechlibraries.core.R.drawable.share_ic, onMenu1Click = {showModernToast("Menu clicked!")})
 
 
 
