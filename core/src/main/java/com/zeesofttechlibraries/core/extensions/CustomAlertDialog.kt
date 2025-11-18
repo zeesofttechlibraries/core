@@ -3,6 +3,7 @@ package com.zeesofttechlibraries.core.extensions
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -92,7 +93,7 @@ object CustomAlertDialog {
 
         // Transparent overlay where the blurred bitmap is drawn
         val overly = ImageView(activity).apply {
-            setBackgroundColor(android.R.color.transparent)
+            setBackgroundColor(ContextCompat.getColor(this@showCustomAlertDialog,android.R.color.transparent))
             alpha = 0f
             layoutParams = FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -100,8 +101,8 @@ object CustomAlertDialog {
             )
         }
         rootView.addView(overly)
-        blurOverly = WeakReference(overly)
-
+//        blurOverly = WeakReference(overly)
+//
 
         // Inflate dialog layout
         val alertDialogView = LayoutInflater.from(this).inflate(R.layout.custom_alert_dialog, null)
@@ -115,14 +116,16 @@ object CustomAlertDialog {
 
         rootView.post {
 
+            if (::dialog.isInitialized && dialog.isShowing) return@post
+
             if (isBlurred) {
-                blurOverly?.get()?.let{
-                addBlur(rootView, activity, it)
-                }
+//                rootView.addView(overly)
+                blurOverly = WeakReference(overly)
+                addBlur(rootView, activity, overly)
             }
 
+
             // Prevent duplicate dialogs
-            if (::dialog.isInitialized && dialog.isShowing) return@post
 
             // View references
             val titleView = wrappedLayout.findViewById<TextView>(R.id.alertTitle)
@@ -176,13 +179,11 @@ object CustomAlertDialog {
             // Primary Button Action
             positiveButton.setDebouncedClickListener {
                 positiveButtonAction.invoke()
-                dialog.dismiss()
             }
 
             // Secondary Button Action
             negativeButton.setDebouncedClickListener {
                 negativeButtonAction?.invoke()
-                dialog.dismiss()
             }
 
             // Build dialog
@@ -200,12 +201,9 @@ object CustomAlertDialog {
                     )
                 }
 
-                setOnDismissListener {
-                    blurOverly?.get().let {
-                        removeBlur(rootView, it) { blurOverly = null }
-                    }
-                    dismissAlertDialog()
-                }
+//                setOnDismissListener {
+//                    dismissAlertDialog()
+//                }
 
                 show()
 
@@ -223,9 +221,24 @@ object CustomAlertDialog {
      * Programmatically dismiss active dialog.
      * Safe to call even if not showing.
      */
-    fun dismissAlertDialog() {
-        dialog.dismiss()
+    fun Context.dismissAlertDialog() {
+        val activity = this as Activity
+        val rootView = activity.findViewById<ViewGroup>(android.R.id.content)
+
+        // dismiss dialog safely
+        if (::dialog.isInitialized && dialog.isShowing) {
+            dialog.setOnDismissListener(null) // prevent recursive calls
+            dialog.dismiss()
+        }
+
+        // remove blur ONLY ONCE
+        blurOverly?.get()?.let { overlay ->
+            removeBlur(rootView, overlay) {
+                blurOverly = null
+            }
+        }
     }
+
 
     /**
      * Returns true if dialog is currently displayed.

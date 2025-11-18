@@ -22,6 +22,7 @@ import com.zeesofttechlibraries.core.R
 import com.zeesofttechlibraries.core.extensions.BaseBlurry.addBlur
 import com.zeesofttechlibraries.core.extensions.BaseBlurry.removeBlur
 import jp.wasabeef.blurry.Blurry
+import java.lang.ref.WeakReference
 
 /**
  * CustomLoading:
@@ -34,7 +35,7 @@ object CustomLoading {
     private lateinit var dialog: Dialog
 
     // Optional ImageView overlay for blur effect
-    private var blurOverlay: ImageView? = null
+    private var blurOverlay: WeakReference<ImageView>? = null
 
     /**
      * showCustomLoading()
@@ -69,9 +70,9 @@ object CustomLoading {
         val activityRoot = activity.window.decorView.findViewById<ViewGroup>(android.R.id.content)
 
         // Create a transparent ImageView that will hold the blurred screenshot
-        blurOverlay = ImageView(this).apply {
+        val overly = ImageView(this).apply {
             // Transparent so we see only the blurred bitmap
-            setBackgroundColor(android.R.color.transparent)
+            setBackgroundColor(ContextCompat.getColor(this@showCustomLoading,android.R.color.transparent))
             alpha = 0f // start invisible, will fade in
             layoutParams = FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -81,7 +82,9 @@ object CustomLoading {
         }
 
         // Add the overlay to the root view, above all existing content
-        activityRoot.addView(blurOverlay)
+        activityRoot.addView(overly)
+        blurOverlay = WeakReference(overly)
+
 
         // Inflate your custom loading dialog layout
         val customView = LayoutInflater.from(this).inflate(R.layout.custom_loading, null)
@@ -101,7 +104,9 @@ object CustomLoading {
 
             // If blur is requested, apply it to the root view
             if (isBlurred) {
-                addBlur(activityRoot, activity, blurOverlay)
+                blurOverlay?.get().let {
+                    addBlur(activityRoot, activity, it)
+                }
             }
 
             // Prevent creating multiple dialogs if one is already showing
@@ -166,11 +171,13 @@ object CustomLoading {
 
                 // Dismiss listener removes the blur overlay safely
                 setOnDismissListener {
-                    removeBlur(
-                        activityRoot,
-                        blurOverlay,
-                        setBlurOverlayNull = { blurOverlay = null }
-                    )
+                    blurOverlay?.get().let {
+                        removeBlur(
+                            activityRoot,
+                            it,
+                            setBlurOverlayNull = { blurOverlay = null }
+                        )
+                    }
                 }
 
                 show()
