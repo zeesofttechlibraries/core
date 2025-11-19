@@ -10,8 +10,6 @@ import com.zeesofttechlibraries.core.extensions.CustomAlertDialog.dismissAlertDi
 import com.zeesofttechlibraries.core.extensions.CustomAlertDialog.showCustomAlertDialog
 import com.zeesofttechlibraries.core.extensions.CustomLoading
 import com.zeesofttechlibraries.core.extensions.CustomLoading.showCustomLoading
-import com.zeesofttechlibraries.core.extensions.GetIcons.Icon
-import com.zeesofttechlibraries.core.extensions.GetIcons.getIcons
 import com.zeesofttechlibraries.core.extensions.NetworkMonitor
 import com.zeesofttechlibraries.core.extensions.RotateAnimationUtil
 import com.zeesofttechlibraries.core.extensions.ShowCustomToast.showCustomToast
@@ -53,7 +51,6 @@ class MainActivity : AppCompatActivity() {
             positiveButtonTextColor = com.zeesofttechlibraries.core.R.color.warning,
             positiveButtonBg = com.zeesofttechlibraries.core.R.drawable.warning_bg,
             topBgColor = com.zeesofttechlibraries.core.R.color.warning,
-            icon = getIcons(Icon.IC_MIC),
             positiveButtonAction = {
                 dismissAlertDialog()
             },
