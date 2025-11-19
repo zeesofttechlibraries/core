@@ -46,7 +46,6 @@ object GetIcons {
             const val IC_GRAMMARCHECK = "ic_grammarcheck"
             const val IC_HELP_OUTLINE = "ic_help_outline"
             const val IC_HISTORY = "ic_history"
-            const val IC_HOME = "ic_home"
             const val IC_LIGHT_THEME = "ic_light_theme"
             const val IC_MENU = "ic_menu"
             const val IC_MIC = "ic_mic"
@@ -63,7 +62,6 @@ object GetIcons {
             const val IC_SELECTED = "ic_selected"
             const val IC_SETTINGS_IC = "ic_settings_ic"
             const val IC_SETTINGS_WHITE = "ic_settings_white"
-            const val IC_SETTINGS = "ic_settings"
             const val IC_SHARE_IMAGE = "ic_share_image"
             const val IC_SHARE_OUTLINE = "ic_share_outline"
             const val IC_SHARE_PDF_SOL = "ic_share_pdf_sol"
@@ -128,7 +126,6 @@ object GetIcons {
             Icon.IC_GRAMMARCHECK -> R.drawable.ic_grammarcheck
             Icon.IC_HELP_OUTLINE -> R.drawable.ic_help_outline
             Icon.IC_HISTORY -> R.drawable.ic_history
-            Icon.IC_HOME -> R.drawable.ic_home
             Icon.IC_LIGHT_THEME -> R.drawable.ic_light_theme
             Icon.IC_MENU -> R.drawable.ic_menu
             Icon.IC_MIC -> R.drawable.ic_mic
@@ -143,9 +140,8 @@ object GetIcons {
             Icon.IC_SEARCH_ -> R.drawable.ic_search_
             Icon.IC_SEARCH -> R.drawable.ic_search
             Icon.IC_SELECTED -> R.drawable.ic_selected
-            Icon.IC_SETTINGS_IC -> R.drawable.ic_settings_ic
+            Icon.IC_SETTINGS_IC -> R.drawable.ic_settings_white
             Icon.IC_SETTINGS_WHITE -> R.drawable.ic_settings_white
-            Icon.IC_SETTINGS -> R.drawable.ic_settings
             Icon.IC_SHARE_IMAGE -> R.drawable.ic_share_image
             Icon.IC_SHARE_OUTLINE -> R.drawable.ic_share_outline
             Icon.IC_SHARE_PDF_SOL -> R.drawable.ic_share_pdf_sol

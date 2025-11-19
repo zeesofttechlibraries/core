@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.core.databinding.ActivityMainBinding
 import com.zeesofttechlibraries.core.extensions.CopyData.copyToClipboard
+import com.zeesofttechlibraries.core.extensions.CustomAlertDialog.dismissAlertDialog
+import com.zeesofttechlibraries.core.extensions.CustomAlertDialog.showCustomAlertDialog
 import com.zeesofttechlibraries.core.extensions.CustomLoading
 import com.zeesofttechlibraries.core.extensions.CustomLoading.showCustomLoading
 import com.zeesofttechlibraries.core.extensions.GetIcons.Icon
@@ -43,27 +45,26 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        showCustomAlertDialog(
-//            this@MainActivity,
-//            "No Internet",
-//            "Please connect to internet to continue",
-//            positiveButtonText = "Retry",
-//            positiveButtonTextColor = com.zeesofttechlibraries.core.R.color.warning,
-//            positiveButtonBg = com.zeesofttechlibraries.core.R.drawable.warning_bg,
-//            topBgColor = com.zeesofttechlibraries.core.R.color.warning,
-//            lottieAnimation = com.zeesofttechlibraries.core.R.raw.warning_animation,
-//            positiveButtonAction = {
-//                dismissAlertDialog()
-//            },
-//            isBlurred = true
-//        )
+        showCustomAlertDialog(
+            this@MainActivity,
+            "No Internet",
+            "Please connect to internet to continue",
+            positiveButtonText = "Retry",
+            positiveButtonTextColor = com.zeesofttechlibraries.core.R.color.warning,
+            positiveButtonBg = com.zeesofttechlibraries.core.R.drawable.warning_bg,
+            topBgColor = com.zeesofttechlibraries.core.R.color.warning,
+            icon = getIcons(Icon.IC_MIC),
+            positiveButtonAction = {
+                dismissAlertDialog()
+            },
+            isBlurred = true
+        )
 //        showCustomToast("This is a custom toast!",)
 //        showModernToast("This is a modern toast!")
         setupToolbar("Test Toolbar Test Toolbar Test Toolbar", backgroundDrawable = R.drawable.bg_mixed_shape, menuIcon1 = com.zeesofttechlibraries.core.R.drawable.default_toast_icon, menuIcon2 = com.zeesofttechlibraries.core.R.drawable.ic_share_outline, onMenu1Click = {})
          networkMonitor  = NetworkMonitor(this,this)
         networkMonitor.startMonitoring()
 
-//        getIcons()
 
 
 
