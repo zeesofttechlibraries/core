@@ -80,11 +80,10 @@ object CustomLoading {
             )
             scaleType = ImageView.ScaleType.CENTER_CROP // ensures the bitmap scales properly
         }
+        activityRoot.addView(overly)
+
 
         // Add the overlay to the root view, above all existing content
-        activityRoot.addView(overly)
-        blurOverlay = WeakReference(overly)
-
 
         // Inflate your custom loading dialog layout
         val customView = LayoutInflater.from(this).inflate(R.layout.custom_loading, null)
@@ -104,9 +103,8 @@ object CustomLoading {
 
             // If blur is requested, apply it to the root view
             if (isBlurred) {
-                blurOverlay?.get().let {
-                    addBlur(activityRoot, activity, it)
-                }
+                blurOverlay = WeakReference(overly)
+                    addBlur(activityRoot, activity, overly)
             }
 
             // Prevent creating multiple dialogs if one is already showing
@@ -170,15 +168,15 @@ object CustomLoading {
                 )
 
                 // Dismiss listener removes the blur overlay safely
-                setOnDismissListener {
-                    blurOverlay?.get().let {
-                        removeBlur(
-                            activityRoot,
-                            it,
-                            setBlurOverlayNull = { blurOverlay = null }
-                        )
-                    }
-                }
+//                setOnDismissListener {
+//                    blurOverlay?.get().let {
+//                        removeBlur(
+//                            activityRoot,
+//                            it,
+//                            setBlurOverlayNull = { blurOverlay = null }
+//                        )
+//                    }
+//                }
 
                 show()
             }
@@ -196,13 +194,28 @@ object CustomLoading {
      * @param context Activity context (required for removing blur).
      */
     fun dismissDialog(context: Context) {
-        if (::dialog.isInitialized && dialog.isShowing) {
-            dialog.dismiss()
+//        if (::dialog.isInitialized && dialog.isShowing) {
+//            dialog.dismiss()
+//
+//            // Remove any blurred bitmap from the activity root
+//            val activityRoot =
+//                (context as Activity).window.decorView.findViewById<ViewGroup>(android.R.id.content)
+//            Blurry.delete(activityRoot)
+//        }
+        val activity = context as Activity
+        val rootView = activity.findViewById<ViewGroup>(android.R.id.content)
 
-            // Remove any blurred bitmap from the activity root
-            val activityRoot =
-                (context as Activity).window.decorView.findViewById<ViewGroup>(android.R.id.content)
-            Blurry.delete(activityRoot)
+        // dismiss dialog safely
+        if (::dialog.isInitialized && CustomLoading.dialog.isShowing) {
+            CustomLoading.dialog.setOnDismissListener(null) // prevent recursive calls
+            CustomLoading.dialog.dismiss()
+        }
+
+        // remove blur ONLY ONCE
+        blurOverlay?.get()?.let { overlay ->
+            removeBlur(rootView, overlay) {
+                blurOverlay = null
+            }
         }
     }
 

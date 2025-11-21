@@ -26,18 +26,20 @@ import java.net.URL
 
 class NetworkMonitor(val context: Context, val lifecycleOwner: LifecycleOwner) {
 
-    fun startMonitoring() {
+    fun startMonitoring(onInternetAvailable: (() -> Unit)?=null, onInternetLost: (() -> Unit)?=null) {
         checkInternet()
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             cm.registerDefaultNetworkCallback(object : ConnectivityManager.NetworkCallback() {
                 override fun onAvailable(network: Network) {
                     super.onAvailable(network)
+                    onInternetAvailable?.invoke()
                     checkInternet()
                 }
 
                 override fun onLost(network: Network) {
                     super.onLost(network)
+                    onInternetLost?.invoke()
                     checkInternet()
                 }
             })
