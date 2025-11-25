@@ -66,7 +66,8 @@ class MainActivity : AppCompatActivity() {
 
         showModernToast("hello this is custom mdoern toast")
         binding.btn.setOnClickListener {
-            binding.btn.fadeIn(1000)
+        showModernToast("hello this is custom mdoern toast", bgColor = com.zeesofttechlibraries.core.R.color.warning)
+
         }
 
 

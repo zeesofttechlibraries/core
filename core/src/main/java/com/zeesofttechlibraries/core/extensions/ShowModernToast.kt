@@ -120,9 +120,15 @@ object ShowModernToast {
        if(textColor!=null){
            messageView.setTextColor(ContextCompat.getColor(this, textColor))
        }
-        if(bgColor!=null){
-            cardBg.setBackgroundColor(ContextCompat.getColor(this, bgColor))
+//        if(bgColor!=null){
+//            cardBg.setBackgroundColor(ContextCompat.getColor(this, bgColor))
+//        }
+        if (bgColor != null) {
+            val drawable = cardBg.background.mutate() // get current drawable
+            drawable.setTint(ContextCompat.getColor(this, bgColor))
+            cardBg.background = drawable
         }
+
 
         toast = Toast(this).apply {
             view?.let { this.view = it }
