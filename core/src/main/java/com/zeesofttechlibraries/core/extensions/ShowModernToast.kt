@@ -99,10 +99,9 @@ object ShowModernToast {
      */
     fun Context.showModernToast(
         message: String,
-        @DrawableRes icon: Int = R.drawable.default_toast_icon,
-        @ColorRes textColor: Int = R.color.white,
-        @ColorRes bgColor: Int = R.color.mainColor,
-        @DrawableRes bgDrawable: Int = R.drawable.custom_toast_bg,
+        @DrawableRes icon: Int ?=null,
+        @ColorRes textColor: Int?=null,
+        @ColorRes bgColor: Int ?= null,
         duration: Int = Toast.LENGTH_SHORT
     ) {
         // Cancel any currently visible toast to prevent overlap
@@ -110,37 +109,21 @@ object ShowModernToast {
 
         // Inflate the custom layout for toast
         val view = LayoutInflater.from(this).inflate(R.layout.modern_custom_toast, null)
-        val iconBg = view.findViewById<FrameLayout>(R.id.iconBg)
-//        iconBg.setBackgroundColor(ContextCompat.getColor(this, android.R.color.transparent))
+        val messageView = view.findViewById<TextView>(R.id.message)
+        val iconAlert = view.findViewById<ImageView>(R.id.alertIcon)
+        val cardBg = view.findViewById<View>(R.id.cardBg)
 
+        messageView.text = message
+        if(icon!=null){
+            iconAlert.setImageResource(icon)
+        }
+       if(textColor!=null){
+           messageView.setTextColor(ContextCompat.getColor(this, textColor))
+       }
+        if(bgColor!=null){
+            cardBg.setBackgroundColor(ContextCompat.getColor(this, bgColor))
+        }
 
-//        // Find views safely by ID
-//        val card = view.findViewById<LinearLayout>(R.id.card)
-//        val messageView = view.findViewById<TextView>(R.id.message)
-//        val iconView = view.findViewById<ImageView>(R.id.icon)
-//
-//        // Assign message text
-//        messageView.text = message
-//
-//        // Show icon only if it’s not the default hidden one
-//        if (icon != R.drawable.default_toast_icon) {
-//            iconView.visibility = View.VISIBLE
-//            iconView.setImageResource(icon)
-//        } else {
-//            iconView.visibility = View.GONE
-//        }
-//
-//        // Apply text color
-//        messageView.setTextColor(ContextCompat.getColor(this, textColor))
-//
-//        // Apply background (color or drawable)
-//        if (bgColor != R.color.mainColor) {
-//            card.setBackgroundColor(ContextCompat.getColor(this, bgColor))
-//        } else {
-//            card.background = ContextCompat.getDrawable(this, bgDrawable)
-//        }
-//
-//        // Create and configure the Toast
         toast = Toast(this).apply {
             view?.let { this.view = it }
             setGravity(Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL, 0, 100)

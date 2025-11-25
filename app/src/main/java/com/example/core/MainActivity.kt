@@ -13,7 +13,9 @@ import com.zeesofttechlibraries.core.extensions.CustomLoading.showCustomLoading
 import com.zeesofttechlibraries.core.extensions.NetworkMonitor
 import com.zeesofttechlibraries.core.extensions.RotateAnimationUtil
 import com.zeesofttechlibraries.core.extensions.ShowCustomToast.showCustomToast
+import com.zeesofttechlibraries.core.extensions.ShowModernToast.showModernToast
 import com.zeesofttechlibraries.core.extensions.ToastManager.showToast
+import com.zeesofttechlibraries.core.extensions.fadeIn
 import com.zeesofttechlibraries.core.extensions.formatTo
 import com.zeesofttechlibraries.core.extensions.generateRandomString
 import com.zeesofttechlibraries.core.extensions.getClipboardText
@@ -42,25 +44,30 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+//
+//        showCustomAlertDialog(
+//            this@MainActivity,
+//            "No Internet",
+//            "Please connect to internet to continue",
+//            positiveButtonText = "Retry",
+//            positiveButtonTextColor = com.zeesofttechlibraries.core.R.color.warning,
+//            positiveButtonBg = com.zeesofttechlibraries.core.R.drawable.warning_bg,
+//            topBgColor = com.zeesofttechlibraries.core.R.color.warning,
+//            positiveButtonAction = {
+//                dismissAlertDialog()
+//            },
+//            isBlurred = true
+//        )
+////        showCustomToast("This is a custom toast!",)
+////        showModernToast("This is a modern toast!")
+//        setupToolbar("Test Toolbar Test Toolbar Test Toolbar", backgroundDrawable = R.drawable.bg_mixed_shape, menuIcon1 = com.zeesofttechlibraries.core.R.drawable.default_toast_icon, menuIcon2 = com.zeesofttechlibraries.core.R.drawable.ic_share_outline, onMenu1Click = {})
+//         networkMonitor  = NetworkMonitor(this,this)
+//        networkMonitor.startMonitoring()
 
-        showCustomAlertDialog(
-            this@MainActivity,
-            "No Internet",
-            "Please connect to internet to continue",
-            positiveButtonText = "Retry",
-            positiveButtonTextColor = com.zeesofttechlibraries.core.R.color.warning,
-            positiveButtonBg = com.zeesofttechlibraries.core.R.drawable.warning_bg,
-            topBgColor = com.zeesofttechlibraries.core.R.color.warning,
-            positiveButtonAction = {
-                dismissAlertDialog()
-            },
-            isBlurred = true
-        )
-//        showCustomToast("This is a custom toast!",)
-//        showModernToast("This is a modern toast!")
-        setupToolbar("Test Toolbar Test Toolbar Test Toolbar", backgroundDrawable = R.drawable.bg_mixed_shape, menuIcon1 = com.zeesofttechlibraries.core.R.drawable.default_toast_icon, menuIcon2 = com.zeesofttechlibraries.core.R.drawable.ic_share_outline, onMenu1Click = {})
-         networkMonitor  = NetworkMonitor(this,this)
-        networkMonitor.startMonitoring()
+        showModernToast("hello this is custom mdoern toast")
+        binding.btn.setOnClickListener {
+            binding.btn.fadeIn(1000)
+        }
 
 
 
