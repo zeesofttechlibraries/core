@@ -110,7 +110,7 @@ object CustomAlertDialog {
 
         // Wrap in FrameLayout for applying margin programmatically
         val wrappedLayout = FrameLayout(this).apply {
-            val margins = (20 * activity.resources.displayMetrics.density).toInt()
+            val margins = (10 * activity.resources.displayMetrics.density).toInt()
             setPadding(margins, 0, margins, 0)
             addView(alertDialogView)
         }

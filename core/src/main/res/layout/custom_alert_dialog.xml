@@ -12,17 +12,20 @@
         android:layout_height="wrap_content"
         app:cardElevation="8dp"
         app:cardCornerRadius="12dp"
+        android:layout_marginHorizontal="10dp"
         >
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             >
 
             <LinearLayout
                 android:id="@+id/topBgColor"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
+
                 android:background="@color/alertDialogDefaultColor"
                 android:orientation="horizontal" />
 
