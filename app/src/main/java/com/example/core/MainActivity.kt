@@ -10,6 +10,7 @@ import com.zeesofttechlibraries.core.extensions.CustomAlertDialog.dismissAlertDi
 import com.zeesofttechlibraries.core.extensions.CustomAlertDialog.showCustomAlertDialog
 import com.zeesofttechlibraries.core.extensions.CustomLoading
 import com.zeesofttechlibraries.core.extensions.CustomLoading.showCustomLoading
+import com.zeesofttechlibraries.core.extensions.DebounceClickListener.setDebouncedClickListener
 import com.zeesofttechlibraries.core.extensions.NetworkMonitor
 import com.zeesofttechlibraries.core.extensions.RotateAnimationUtil
 import com.zeesofttechlibraries.core.extensions.ShowCustomToast.showCustomToast
@@ -26,7 +27,6 @@ import com.zeesofttechlibraries.core.extensions.isValidEmail
 import com.zeesofttechlibraries.core.extensions.isValidPhoneNumber
 import com.zeesofttechlibraries.core.extensions.makeGone
 import com.zeesofttechlibraries.core.extensions.makeVisible
-import com.zeesofttechlibraries.core.extensions.setDebouncedClickListener
 import com.zeesofttechlibraries.core.extensions.setupToolbar
 import com.zeesofttechlibraries.core.extensions.shareText
 import com.zeesofttechlibraries.core.extensions.slideUp
@@ -66,8 +66,8 @@ class MainActivity : AppCompatActivity() {
 
         showModernToast("hello this is custom mdoern toast")
         binding.btn.setOnClickListener {
-        showModernToast("hello this is custom mdoern toast", bgColor = com.zeesofttechlibraries.core.R.color.warning, icon = com.zeesofttechlibraries.core.R.drawable.warning)
-
+//        showModernToast("hello this is custom mdoern toast", bgColor = com.zeesofttechlibraries.core.R.color.warning, icon = com.zeesofttechlibraries.core.R.drawable.warning)
+            showCustomAlertDialog(this,"","", positiveButtonAction = {})
         }
 
 

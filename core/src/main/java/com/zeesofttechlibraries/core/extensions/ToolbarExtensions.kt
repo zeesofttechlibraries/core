@@ -10,6 +10,7 @@ import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.zeesofttechlibraries.core.R
+import com.zeesofttechlibraries.core.extensions.DebounceClickListener.setDebouncedClickListener
 
 private var customBackAction: (() -> Unit)? = null
 

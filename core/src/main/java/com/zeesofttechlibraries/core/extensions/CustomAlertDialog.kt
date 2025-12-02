@@ -20,6 +20,7 @@ import com.airbnb.lottie.LottieAnimationView
 import com.zeesofttechlibraries.core.R
 import com.zeesofttechlibraries.core.extensions.BaseBlurry.addBlur
 import com.zeesofttechlibraries.core.extensions.BaseBlurry.removeBlur
+import com.zeesofttechlibraries.core.extensions.DebounceClickListener.setDebouncedClickListener
 import java.lang.ref.WeakReference
 
 /**
