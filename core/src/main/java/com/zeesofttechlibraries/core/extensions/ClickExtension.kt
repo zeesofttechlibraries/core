@@ -8,73 +8,75 @@ private object GlobalDebounceTracker {
     var lastClickTime = 0L
 }
 
+
 /**
  * Debounced click extension.
+ * By default, debounce is per view. If [global]=true, debounce is global across all views.
  *
- * Only `delaySeconds` is used to control debounce timing.
- *
- * @param delaySeconds → Debounce delay in seconds (default = 1 second)
- * @param disabledAlpha → Alpha during feedback animation
- * @param enabledAlpha → Alpha restored after animation
- * @param global → If true, debounce applies across all views; if false, per-view debounce
- *
- * Usage:
- *   view.setDebouncedClickListener(delaySeconds = 2) { ... }
+ * - View disabling is based on [debounceTime] or [delaySeconds]
+ * - Alpha flickers for 300 ms only (visual feedback), independent of debounce duration
  */
-fun View.setDebouncedClickListener(
-    delaySeconds: Long = 1L,
-    disabledAlpha: Float = 0.5f,
-    enabledAlpha: Float = 1.0f,
-    global: Boolean = true,
-    action: (View) -> Unit
-) {
-    val debounceMillis = delaySeconds * 1000
-    val alphaAnimDuration = 500L // visual tap feedback duration
+object DebounceClickListener{
+    @JvmStatic
+    fun setDebouncedClickListener(view: View, action: (View) -> Unit) {
+        view.setDebouncedClickListener(action = action, debounceTime = 2000L)
+    }
 
-    setOnClickListener { v ->
-        if (!isEnabled) return@setOnClickListener
+    @JvmStatic
+    fun View.setDebouncedClickListener(
+        debounceTime: Long = 1000L,
+        disabledAlpha: Float = 0.5f,
+        enabledAlpha: Float = 1.0f,
+        delaySeconds: Long? = null,
+        global: Boolean = true,
+        action: (View) -> Unit
+    ) {
+        val debounceMillis = delaySeconds?.let { it * 1000 } ?: debounceTime
+        val alphaAnimDuration = 500L // fixed visible feedback duration
 
-        val now = SystemClock.elapsedRealtime()
-        val lastClickTime = if (global) {
-            GlobalDebounceTracker.lastClickTime
-        } else {
-            getTag(R.id.debounce_click_time_tag) as? Long ?: 0L
-        }
+        setOnClickListener { v ->
+            if (!isEnabled) return@setOnClickListener
 
-        // Debounce check
-        if (now - lastClickTime < debounceMillis) return@setOnClickListener
-
-        // Update last click time
-        if (global) {
-            GlobalDebounceTracker.lastClickTime = now
-        } else {
-            setTag(R.id.debounce_click_time_tag, now)
-        }
-
-        // Visual alpha tap feedback
-        animate()
-            .alpha(disabledAlpha)
-            .setDuration(alphaAnimDuration / 2)
-            .withEndAction {
-                animate()
-                    .alpha(enabledAlpha)
-                    .setDuration(alphaAnimDuration / 2)
-                    .start()
+            val now = SystemClock.elapsedRealtime()
+            val lastClickTime = if (global) {
+                GlobalDebounceTracker.lastClickTime
+            } else {
+                getTag(R.id.debounce_click_time_tag) as? Long ?: 0L
             }
-            .start()
 
-        // Prevent rapid taps
-        isEnabled = false
+            if (global && now - lastClickTime < debounceMillis) return@setOnClickListener
 
-        try {
-            action(v)
-        } catch (e: Exception) {
-            isEnabled = true
-            throw e
+            if (global) {
+                GlobalDebounceTracker.lastClickTime = now
+            } else {
+                setTag(R.id.debounce_click_time_tag, now)
+            }
+
+            // 🔹 Short alpha animation for visual click feedback (not the full disable period)
+            animate()
+                .alpha(disabledAlpha)
+                .setDuration(alphaAnimDuration / 2)
+                .withEndAction {
+                    animate()
+                        .alpha(enabledAlpha)
+                        .setDuration(alphaAnimDuration / 2)
+                        .start()
+                }
+                .start()
+
+            // 🔹 Disable logic for full debounce time
+            isEnabled = false
+
+            try {
+                action(v)
+            } catch (e: Exception) {
+                isEnabled = true
+                throw e
+            }
+
+            postDelayed({
+                isEnabled = true
+            }, debounceMillis)
         }
-
-        postDelayed({
-            isEnabled = true
-        }, debounceMillis)
     }
 }
