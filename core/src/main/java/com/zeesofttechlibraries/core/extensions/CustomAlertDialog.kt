@@ -122,6 +122,10 @@ object CustomAlertDialog {
         }
 
         rootView.post {
+            val act = this@showCustomAlertDialog as Activity
+            if(act.isFinishing || act.isDestroyed){
+                return@post
+            }
 
             if (::dialog.isInitialized && dialog.isShowing) return@post
 
