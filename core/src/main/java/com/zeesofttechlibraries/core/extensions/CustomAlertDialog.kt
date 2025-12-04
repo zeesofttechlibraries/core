@@ -87,6 +87,12 @@ object CustomAlertDialog {
         negativeButtonAction: (() -> Unit)?=null
     ) {
 
+        //return false if context or activity is destroyed or pause
+        if((this as? Activity)?.isDestroyed == true || (this as? Activity)?.isFinishing == true || (this as? Activity)?.isChangingConfigurations == true){
+            Log.e("CustomAlertDialog","Context is destroyed or pause")
+            return
+        }
+
         val activity = (this as Activity)
 
         // Root content view used for blur overlay

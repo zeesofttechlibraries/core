@@ -18,8 +18,8 @@ private object GlobalDebounceTracker {
  */
 object DebounceClickListener{
     @JvmStatic
-    fun setDebouncedClickListener(view: View, action: (View) -> Unit) {
-        view.setDebouncedClickListener(action = action, debounceTime = 2000L)
+    fun setDebouncedClickListener(view: View, debounceTime: Long = 1000L, action: (View) -> Unit) {
+        view.setDebouncedClickListener(action = action, debounceTime = debounceTime)
     }
 
     @JvmStatic
