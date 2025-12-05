@@ -198,7 +198,7 @@ object CustomAlertDialog {
             }
 
             // Build dialog
-            dialog = Dialog(this).apply {
+            dialog = Dialog(act).apply {
                 setContentView(wrappedLayout)
                 setCancelable(isCancelable)
                 setCanceledOnTouchOutside(isOnTouchOutsideCancel)
