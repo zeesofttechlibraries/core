@@ -206,15 +206,15 @@ object CustomAlertDialog {
                 // Transparent background for custom card UI
                 window?.apply {
                     setBackgroundDrawableResource(android.R.color.transparent)
-                    setLayout(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT
-                    )
+//                    setLayout(
+//                        ViewGroup.LayoutParams.MATCH_PARENT,
+//                        ViewGroup.LayoutParams.MATCH_PARENT
+//                    )
                 }
 
-//                setOnDismissListener {
-//                    dismissAlertDialog()
-//                }
+                setOnDismissListener {
+                    dismissAlertDialog()
+                }
 
                 show()
 

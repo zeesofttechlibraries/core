@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         showModernToast("hello this is custom mdoern toast")
         binding.btn.setOnClickListener {
 //        showModernToast("hello this is custom mdoern toast", bgColor = com.zeesofttechlibraries.core.R.color.warning, icon = com.zeesofttechlibraries.core.R.drawable.warning)
-            showCustomAlertDialog(this,"","", positiveButtonAction = {})
+            showCustomAlertDialog(this,"","", positiveButtonAction = {}, isOnTouchOutsideCancel = true, isCancelable = true, isBlurred = true)
         }
 
 
