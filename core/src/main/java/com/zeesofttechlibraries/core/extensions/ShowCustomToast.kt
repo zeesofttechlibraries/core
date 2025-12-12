@@ -106,6 +106,12 @@ object ShowCustomToast {
     ) {
         // Cancel any currently visible toast to prevent overlap
         toast?.cancel()
+        if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.O) {
+            toast = Toast.makeText(this, message, duration)
+            toast?.show()
+            return
+        }
+
 
         // Inflate the custom layout for toast
         val view = LayoutInflater.from(this).inflate(R.layout.custom_toast, null)

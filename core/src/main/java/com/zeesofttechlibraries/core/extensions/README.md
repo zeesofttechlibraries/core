@@ -42,6 +42,7 @@ This document provides a comprehensive overview of the utility classes and exten
 - [**CustomAlertDialog** (`CustomAlertDialog.kt`)](#customalertdialog)
 - [**CustomLoading** (`CustomLoading.kt`)](#customloading)
 - [**DateTimeExtensions** (`DateTimeExtensions.kt`)](#datetimeextensions)
+- [**Dialogs** (`DialogExtensions.kt`)](#dialogs)
 - [**FragmentNavigator** (`FragmentNavigator.kt`)](#fragmentnavigator)
 - [**GenerateRandomString** (`GenerateRandomString.kt`)](#generaterandomstring)
 - [**GetClipboardData** (`GetClipboardData.kt`)](#getclipboarddata)
@@ -156,6 +157,48 @@ import com.zeesofttechlibraries.core.extensions.formatTo
 **Usage:**
 ```kotlin
 val formattedDate = Date().formatTo("dd MMM yyyy")
+```
+
+---
+
+### Dialogs
+A powerful and lifecycle-aware custom dialog system. It prevents memory leaks and ensures only one dialog is shown at a time.
+
+**Imports:**
+```kotlin
+import com.spellchecker.core.dialog.showCustomDialog
+import com.spellchecker.core.dialog.DialogStyleModel
+```
+
+**Basic Usage:**
+```kotlin
+context.showCustomDialog(
+    title = "Permission Needed",
+    message = "This feature requires storage access to function properly.",
+    positiveText = "Grant",
+    positiveAction = { /* Handle permission request */ }
+)
+```
+
+**Styled Usage:**
+You can extensively customize the dialog's appearance using the `DialogStyleModel`.
+
+```kotlin
+val style = DialogStyleModel(
+    backgroundDrawable = R.drawable.bg_dialog_custom,
+    iconDrawable = R.drawable.ic_warning,
+    iconTintColor = context.getColor(R.color.warning_yellow),
+    positiveButtonBackground = R.drawable.bg_button_positive,
+    negativeButtonBackground = R.drawable.bg_button_negative
+)
+
+context.showCustomDialog(
+    title = "Log Out?",
+    message = "Are you sure you want to log out?",
+    positiveText = "Log Out",
+    styleModel = style,
+    positiveAction = { /* Handle logout */ }
+)
 ```
 
 ---
