@@ -4,7 +4,9 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
+import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import android.widget.ProgressBar
@@ -64,6 +66,11 @@ object LoadingDialogManager {
                 setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
                 addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
                 attributes = attributes.apply { dimAmount = 0.5f } // background dim
+                setLayout(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                )
+                setGravity(Gravity.CENTER)
             }
             setOnDismissListener { loadingDialogRef = null }
             show()

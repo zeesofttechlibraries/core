@@ -11,6 +11,7 @@ import com.zeesofttechlibraries.core.extensions.CustomAlertDialog.showCustomAler
 import com.zeesofttechlibraries.core.extensions.CustomLoading
 import com.zeesofttechlibraries.core.extensions.CustomLoading.showCustomLoading
 import com.zeesofttechlibraries.core.extensions.DebounceClickListener.setDebouncedClickListener
+import com.zeesofttechlibraries.core.extensions.LoadingDialogManager
 import com.zeesofttechlibraries.core.extensions.NetworkMonitor
 import com.zeesofttechlibraries.core.extensions.RotateAnimationUtil
 import com.zeesofttechlibraries.core.extensions.ShowCustomToast.showCustomToast
@@ -68,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         binding.btn.setOnClickListener {
 //        showModernToast("hello this is custom mdoern toast", bgColor = com.zeesofttechlibraries.core.R.color.warning, icon = com.zeesofttechlibraries.core.R.drawable.warning)
 //            showCustomAlertDialog(this,"","", positiveButtonAction = {}, isOnTouchOutsideCancel = true, isCancelable = true, isBlurred = true)
-            showCustomToast("hello")
+            LoadingDialogManager.showLoadingDialog(this)
         }
 
 
