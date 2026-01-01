@@ -3,8 +3,10 @@
 
     <style name="TransparentDialog" parent="Theme.AppCompat.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+
+        <!-- Keep dialog as full-size but do NOT hide status bar -->
         <item name="android:windowIsFloating">false</item>
-        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowFullscreen">false</item>
     </style>
 </resources>
